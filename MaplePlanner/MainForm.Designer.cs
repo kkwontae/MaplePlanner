@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPageSymbol = new System.Windows.Forms.TabPage();
@@ -69,7 +70,6 @@
             this.주간초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.월간초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.모두체크해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.보기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.버전ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,11 +80,11 @@
             this.button_AddPlan = new System.Windows.Forms.Button();
             this.button_RemovePlan = new System.Windows.Forms.Button();
             this.textBox_Plan = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.button_addCharacter = new System.Windows.Forms.Button();
             this.textBox_Nickname = new System.Windows.Forms.TextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabPageMonthlyBoss = new System.Windows.Forms.TabPage();
             this.checkBoxMonthlyBoss0 = new System.Windows.Forms.CheckBox();
             this.tabPageWeeklyBoss = new System.Windows.Forms.TabPage();
@@ -529,7 +529,6 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.설정ToolStripMenuItem,
-            this.보기ToolStripMenuItem,
             this.정보ToolStripMenuItem,
             this.정보ToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -577,12 +576,6 @@
             this.모두체크해제ToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
             this.모두체크해제ToolStripMenuItem.Text = "모두 체크해제";
             this.모두체크해제ToolStripMenuItem.Click += new System.EventHandler(this.모두체크해제ToolStripMenuItem_Click);
-            // 
-            // 보기ToolStripMenuItem
-            // 
-            this.보기ToolStripMenuItem.Name = "보기ToolStripMenuItem";
-            this.보기ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.보기ToolStripMenuItem.Text = "보기";
             // 
             // 정보ToolStripMenuItem
             // 
@@ -1238,7 +1231,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 설정ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 보기ToolStripMenuItem;
         private System.Windows.Forms.Label labelJob;
         private System.Windows.Forms.Label labelLevel;
         private System.Windows.Forms.Label labelNick;
