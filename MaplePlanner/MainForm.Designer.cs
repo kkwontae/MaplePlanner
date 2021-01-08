@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPageSymbol = new System.Windows.Forms.TabPage();
@@ -71,9 +70,6 @@
             this.월간초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.모두체크해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.보기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.보스ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.심볼퀘스트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.중요체크리스트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.버전ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,11 +80,11 @@
             this.button_AddPlan = new System.Windows.Forms.Button();
             this.button_RemovePlan = new System.Windows.Forms.Button();
             this.textBox_Plan = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer();
             this.label6 = new System.Windows.Forms.Label();
             this.button_addCharacter = new System.Windows.Forms.Button();
             this.textBox_Nickname = new System.Windows.Forms.TextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.tabPageMonthlyBoss = new System.Windows.Forms.TabPage();
             this.checkBoxMonthlyBoss0 = new System.Windows.Forms.CheckBox();
             this.tabPageWeeklyBoss = new System.Windows.Forms.TabPage();
@@ -145,10 +141,10 @@
             this.tabControl2.Controls.Add(this.tabPageSymbol);
             this.tabControl2.Controls.Add(this.tabPageContents);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tabControl2.Location = new System.Drawing.Point(0, 30);
+            this.tabControl2.Location = new System.Drawing.Point(0, 28);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(309, 276);
+            this.tabControl2.Size = new System.Drawing.Size(309, 278);
             this.tabControl2.TabIndex = 2;
             // 
             // tabPageSymbol
@@ -169,7 +165,7 @@
             this.tabPageSymbol.Location = new System.Drawing.Point(4, 25);
             this.tabPageSymbol.Name = "tabPageSymbol";
             this.tabPageSymbol.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSymbol.Size = new System.Drawing.Size(301, 247);
+            this.tabPageSymbol.Size = new System.Drawing.Size(301, 249);
             this.tabPageSymbol.TabIndex = 0;
             this.tabPageSymbol.Text = "심볼퀘스트";
             this.tabPageSymbol.UseVisualStyleBackColor = true;
@@ -539,7 +535,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(957, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(957, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -551,7 +547,7 @@
             this.월간초기화ToolStripMenuItem,
             this.모두체크해제ToolStripMenuItem});
             this.설정ToolStripMenuItem.Name = "설정ToolStripMenuItem";
-            this.설정ToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.설정ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.설정ToolStripMenuItem.Text = "설정";
             // 
             // 일일초기화ToolStripMenuItem
@@ -584,36 +580,14 @@
             // 
             // 보기ToolStripMenuItem
             // 
-            this.보기ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.보스ToolStripMenuItem,
-            this.심볼퀘스트ToolStripMenuItem,
-            this.중요체크리스트ToolStripMenuItem});
             this.보기ToolStripMenuItem.Name = "보기ToolStripMenuItem";
-            this.보기ToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.보기ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.보기ToolStripMenuItem.Text = "보기";
-            // 
-            // 보스ToolStripMenuItem
-            // 
-            this.보스ToolStripMenuItem.Name = "보스ToolStripMenuItem";
-            this.보스ToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.보스ToolStripMenuItem.Text = "보스";
-            // 
-            // 심볼퀘스트ToolStripMenuItem
-            // 
-            this.심볼퀘스트ToolStripMenuItem.Name = "심볼퀘스트ToolStripMenuItem";
-            this.심볼퀘스트ToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.심볼퀘스트ToolStripMenuItem.Text = "심볼퀘스트";
-            // 
-            // 중요체크리스트ToolStripMenuItem
-            // 
-            this.중요체크리스트ToolStripMenuItem.Name = "중요체크리스트ToolStripMenuItem";
-            this.중요체크리스트ToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
-            this.중요체크리스트ToolStripMenuItem.Text = "중요 체크리스트";
             // 
             // 정보ToolStripMenuItem
             // 
             this.정보ToolStripMenuItem.Name = "정보ToolStripMenuItem";
-            this.정보ToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.정보ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.정보ToolStripMenuItem.Text = "문의";
             this.정보ToolStripMenuItem.Click += new System.EventHandler(this.정보ToolStripMenuItem_Click);
             // 
@@ -623,7 +597,7 @@
             this.버전ToolStripMenuItem,
             this.패치노트ToolStripMenuItem});
             this.정보ToolStripMenuItem1.Name = "정보ToolStripMenuItem1";
-            this.정보ToolStripMenuItem1.Size = new System.Drawing.Size(53, 26);
+            this.정보ToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
             this.정보ToolStripMenuItem1.Text = "정보";
             // 
             // 버전ToolStripMenuItem
@@ -1015,7 +989,7 @@
             this.tabPageDailyBoss.Location = new System.Drawing.Point(4, 25);
             this.tabPageDailyBoss.Name = "tabPageDailyBoss";
             this.tabPageDailyBoss.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDailyBoss.Size = new System.Drawing.Size(249, 247);
+            this.tabPageDailyBoss.Size = new System.Drawing.Size(249, 249);
             this.tabPageDailyBoss.TabIndex = 0;
             this.tabPageDailyBoss.Text = "일일보스";
             // 
@@ -1190,11 +1164,11 @@
             this.tabControl1.Controls.Add(this.tabPageMonthlyBoss);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabControl1.Location = new System.Drawing.Point(700, 30);
+            this.tabControl1.Location = new System.Drawing.Point(700, 28);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(257, 276);
+            this.tabControl1.Size = new System.Drawing.Size(257, 278);
             this.tabControl1.TabIndex = 1;
             // 
             // MainForm
@@ -1265,9 +1239,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 설정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 보기ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 보스ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 심볼퀘스트ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 중요체크리스트ToolStripMenuItem;
         private System.Windows.Forms.Label labelJob;
         private System.Windows.Forms.Label labelLevel;
         private System.Windows.Forms.Label labelNick;
