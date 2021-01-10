@@ -23,8 +23,9 @@ namespace MaplePlanner
 
             //menuStrip1.Renderer = new RedTextRenderer();
 
+            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
             //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
-            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"hh\:mm\:ss");
+            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
 
             timer1.Interval = 1000;
             timer1.Start();
@@ -89,8 +90,10 @@ namespace MaplePlanner
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
+            //label6.Text = "12시까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
+
             //label6.Text = "00시까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
-            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"hh\:mm\:ss");
+            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
             //if (DateTime.Today.AddDays(1).Subtract(DateTime.Now).CompareTo(new TimeSpan(1, 0, 0)) < 0)
             //    label6.ForeColor = Color.Red;
             //else
