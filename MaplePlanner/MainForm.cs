@@ -20,17 +20,19 @@ namespace MaplePlanner
         {
             InitializeComponent();
             //CheckVersion();
-            
+
             //menuStrip1.Renderer = new RedTextRenderer();
 
-            label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
+            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
+            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
+            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
 
             timer1.Interval = 1000;
             timer1.Start();
 
             try
             {
-                //ersion = version.Remove(0, 2);
+                //version = version.Remove(0, 2);
                 //게시(Clickonce 등 일 경우) 응용프로그램 버전
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (배포)",
                     System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString().Remove(0, 2));
@@ -44,6 +46,7 @@ namespace MaplePlanner
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+
             DirectoryInfo di = new DirectoryInfo(DirPath);
             FileInfo fi = new FileInfo(FilePath);
 
@@ -87,36 +90,24 @@ namespace MaplePlanner
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label6.Text = "12시까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
+            //label6.Text = "12시까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
+
+            //label6.Text = "00시까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
+            label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
+            //if (DateTime.Today.AddDays(1).Subtract(DateTime.Now).CompareTo(new TimeSpan(1, 0, 0)) < 0)
+            //    label6.ForeColor = Color.Red;
+            //else
+            //    label6.ForeColor = Color.Black;
             if (DateTime.Today.AddDays(1).Subtract(DateTime.Now).CompareTo(new TimeSpan(1, 0, 0)) < 0)
-                label6.ForeColor = Color.Red;
+                label7.ForeColor = Color.Red;
             else
-                label6.ForeColor = Color.Black;
+                label7.ForeColor = Color.Black;
         }
 
-        bool isBossTabOpened = false;
-
-        #region Buttons 
-        private void button_BossTab_Click(object sender, EventArgs e)
-        {
-            tabControl1.Visible = isBossTabOpened;
-            if (tabControl1.Visible) //보이는 상태
-            {
-                button_BossTab.Text = "<";
-                this.Size = new Size(this.Size.Width + tabControl1.Size.Width, this.Size.Height);
-                menuStrip1.Size = this.Size;
-            }
-            else //숨겨진 상태
-            {
-                button_BossTab.Text = ">";
-                this.Size = new Size(this.Size.Width- tabControl1.Size.Width, this.Size.Height);
-                menuStrip1.Size = this.Size;
-            }
-            isBossTabOpened = !isBossTabOpened;
-        }
+        #region Buttons
         private void button_AddPlan_Click(object sender, EventArgs e)
         {
-            if (Encoding.Default.GetBytes(textBox_Plan.Text).Length > 30)
+            if (Encoding.Default.GetBytes(textBox_Plan.Text).Length > 40)
             {
                 MessageBox.Show("영문 40자 혹은 한글 20자 이하까지 작성가능합니다.");
                 return;
@@ -205,15 +196,15 @@ namespace MaplePlanner
                 string level;
                 string job;
                 string imgurl;
+                var url = "https://maple.gg/u/" + nickname;
+                HtmlWeb web = new HtmlWeb();
+                web.Load("https://maple.gg/search?q=" + nickname);
                 try
                 {
-                    var url = "https://maple.gg/u/" + nickname;
-                    HtmlWeb web = new HtmlWeb();
                     var doc = web.Load(url);
 
                     level = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[1]").InnerText.Split('.')[1];
                     job = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[2]").InnerText;
-
                     imgurl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
                 }
                 catch
@@ -251,7 +242,7 @@ namespace MaplePlanner
                 textBox_Nickname.Text = string.Empty;
 
                 listBox_Characters.SelectedIndex = listBox_Characters.Items.Count - 1;
-                textBox_Nickname.Select();
+                textBox_Nickname.Focus();
             }
         }
         #endregion
@@ -614,6 +605,57 @@ namespace MaplePlanner
         {
             PatchNotes dlg = new PatchNotes();
             dlg.ShowDialog();
+        }
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
+            webBrowser1.Url = new Uri(url);
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            string imgurl = string.Empty;
+            var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
+            try
+            {
+                RefreshMapleGG(url);
+            }
+            catch { MessageBox.Show("Load Error!"); }
+            try
+            {
+                HtmlWeb web = new HtmlWeb();
+                var doc = web.Load(url);
+
+                imgurl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
+
+                ini[sections[nSelectedCharacter]]["img"] = imgurl;
+                ini.Save(FilePath);
+                ini.Load(FilePath);
+                pictureBox1.ImageLocation = imgurl;
+                //webBrowser1.Url = new Uri(url);
+
+            }
+            catch { }
+            
+        }
+        private void RefreshMapleGG(string url)
+        {
+            //var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
+            try
+            {
+                webBrowser1.Navigate(url);
+                while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+                {
+                    Application.DoEvents();
+                }
+                webBrowser1.Document.GetElementById("btn-sync").InvokeMember("Click");
+            }
+            catch { MessageBox.Show("Load Error!"); }
+        }
+        string homepageURL = "https://mapleplanner.synology.me";
+        private void pictureBox2_DoubleClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(homepageURL);
         }
     }
     public class RedTextRenderer : ToolStripRenderer

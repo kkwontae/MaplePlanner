@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPageSymbol = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBoxSymbol0 = new System.Windows.Forms.CheckBox();
             this.checkBoxSymbol1 = new System.Windows.Forms.CheckBox();
             this.checkBoxSymbol2 = new System.Windows.Forms.CheckBox();
@@ -55,7 +55,7 @@
             this.checkBoxWeekly1 = new System.Windows.Forms.CheckBox();
             this.checkBoxWeekly2 = new System.Windows.Forms.CheckBox();
             this.checkBoxWeekly3 = new System.Windows.Forms.CheckBox();
-            this.button_BossTab = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelJob = new System.Windows.Forms.Label();
             this.labelLevel = new System.Windows.Forms.Label();
@@ -69,7 +69,6 @@
             this.주간초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.월간초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.모두체크해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.보기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.정보ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.버전ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,11 +79,10 @@
             this.button_AddPlan = new System.Windows.Forms.Button();
             this.button_RemovePlan = new System.Windows.Forms.Button();
             this.textBox_Plan = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer();
-            this.label6 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button_addCharacter = new System.Windows.Forms.Button();
             this.textBox_Nickname = new System.Windows.Forms.TextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabPageMonthlyBoss = new System.Windows.Forms.TabPage();
             this.checkBoxMonthlyBoss0 = new System.Windows.Forms.CheckBox();
             this.tabPageWeeklyBoss = new System.Windows.Forms.TabPage();
@@ -124,16 +122,20 @@
             this.checkBoxDailyBoss12 = new System.Windows.Forms.CheckBox();
             this.checkBoxDailyBoss13 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabControl2.SuspendLayout();
             this.tabPageSymbol.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPageContents.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabPageMonthlyBoss.SuspendLayout();
             this.tabPageWeeklyBoss.SuspendLayout();
             this.tabPageDailyBoss.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -141,15 +143,15 @@
             this.tabControl2.Controls.Add(this.tabPageSymbol);
             this.tabControl2.Controls.Add(this.tabPageContents);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tabControl2.Location = new System.Drawing.Point(0, 28);
+            this.tabControl2.Location = new System.Drawing.Point(257, 28);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(309, 278);
+            this.tabControl2.Size = new System.Drawing.Size(281, 277);
             this.tabControl2.TabIndex = 2;
             // 
             // tabPageSymbol
             // 
-            this.tabPageSymbol.Controls.Add(this.pictureBox1);
+            this.tabPageSymbol.BackColor = System.Drawing.SystemColors.Window;
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol0);
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol1);
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol2);
@@ -162,24 +164,13 @@
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol9);
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol10);
             this.tabPageSymbol.Controls.Add(this.checkBoxSymbol11);
+            this.tabPageSymbol.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPageSymbol.Location = new System.Drawing.Point(4, 25);
             this.tabPageSymbol.Name = "tabPageSymbol";
             this.tabPageSymbol.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSymbol.Size = new System.Drawing.Size(301, 249);
+            this.tabPageSymbol.Size = new System.Drawing.Size(273, 248);
             this.tabPageSymbol.TabIndex = 0;
             this.tabPageSymbol.Text = "심볼퀘스트";
-            this.tabPageSymbol.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(137, 107);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(161, 136);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
             // 
             // checkBoxSymbol0
             // 
@@ -250,7 +241,7 @@
             // checkBoxSymbol6
             // 
             this.checkBoxSymbol6.AutoSize = true;
-            this.checkBoxSymbol6.Location = new System.Drawing.Point(156, 6);
+            this.checkBoxSymbol6.Location = new System.Drawing.Point(126, 6);
             this.checkBoxSymbol6.Name = "checkBoxSymbol6";
             this.checkBoxSymbol6.Size = new System.Drawing.Size(89, 19);
             this.checkBoxSymbol6.TabIndex = 9;
@@ -261,7 +252,7 @@
             // checkBoxSymbol7
             // 
             this.checkBoxSymbol7.AutoSize = true;
-            this.checkBoxSymbol7.Location = new System.Drawing.Point(156, 32);
+            this.checkBoxSymbol7.Location = new System.Drawing.Point(126, 32);
             this.checkBoxSymbol7.Name = "checkBoxSymbol7";
             this.checkBoxSymbol7.Size = new System.Drawing.Size(59, 19);
             this.checkBoxSymbol7.TabIndex = 10;
@@ -272,7 +263,7 @@
             // checkBoxSymbol8
             // 
             this.checkBoxSymbol8.AutoSize = true;
-            this.checkBoxSymbol8.Location = new System.Drawing.Point(156, 57);
+            this.checkBoxSymbol8.Location = new System.Drawing.Point(126, 57);
             this.checkBoxSymbol8.Name = "checkBoxSymbol8";
             this.checkBoxSymbol8.Size = new System.Drawing.Size(124, 19);
             this.checkBoxSymbol8.TabIndex = 11;
@@ -283,7 +274,7 @@
             // checkBoxSymbol9
             // 
             this.checkBoxSymbol9.AutoSize = true;
-            this.checkBoxSymbol9.Location = new System.Drawing.Point(156, 82);
+            this.checkBoxSymbol9.Location = new System.Drawing.Point(126, 82);
             this.checkBoxSymbol9.Name = "checkBoxSymbol9";
             this.checkBoxSymbol9.Size = new System.Drawing.Size(139, 19);
             this.checkBoxSymbol9.TabIndex = 12;
@@ -315,6 +306,7 @@
             // 
             // tabPageContents
             // 
+            this.tabPageContents.BackColor = System.Drawing.SystemColors.Window;
             this.tabPageContents.Controls.Add(this.checkBoxDaily0);
             this.tabPageContents.Controls.Add(this.checkBoxDaily1);
             this.tabPageContents.Controls.Add(this.checkBoxDaily2);
@@ -328,10 +320,9 @@
             this.tabPageContents.Location = new System.Drawing.Point(4, 25);
             this.tabPageContents.Name = "tabPageContents";
             this.tabPageContents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageContents.Size = new System.Drawing.Size(301, 249);
+            this.tabPageContents.Size = new System.Drawing.Size(273, 248);
             this.tabPageContents.TabIndex = 1;
             this.tabPageContents.Text = "일일/주간";
-            this.tabPageContents.UseVisualStyleBackColor = true;
             // 
             // checkBoxDaily0
             // 
@@ -402,7 +393,7 @@
             // checkBoxWeekly0
             // 
             this.checkBoxWeekly0.AutoSize = true;
-            this.checkBoxWeekly0.Location = new System.Drawing.Point(156, 6);
+            this.checkBoxWeekly0.Location = new System.Drawing.Point(126, 6);
             this.checkBoxWeekly0.Name = "checkBoxWeekly0";
             this.checkBoxWeekly0.Size = new System.Drawing.Size(74, 19);
             this.checkBoxWeekly0.TabIndex = 21;
@@ -413,7 +404,7 @@
             // checkBoxWeekly1
             // 
             this.checkBoxWeekly1.AutoSize = true;
-            this.checkBoxWeekly1.Location = new System.Drawing.Point(156, 32);
+            this.checkBoxWeekly1.Location = new System.Drawing.Point(126, 32);
             this.checkBoxWeekly1.Name = "checkBoxWeekly1";
             this.checkBoxWeekly1.Size = new System.Drawing.Size(74, 19);
             this.checkBoxWeekly1.TabIndex = 22;
@@ -424,7 +415,7 @@
             // checkBoxWeekly2
             // 
             this.checkBoxWeekly2.AutoSize = true;
-            this.checkBoxWeekly2.Location = new System.Drawing.Point(156, 57);
+            this.checkBoxWeekly2.Location = new System.Drawing.Point(126, 57);
             this.checkBoxWeekly2.Name = "checkBoxWeekly2";
             this.checkBoxWeekly2.Size = new System.Drawing.Size(59, 19);
             this.checkBoxWeekly2.TabIndex = 23;
@@ -435,7 +426,7 @@
             // checkBoxWeekly3
             // 
             this.checkBoxWeekly3.AutoSize = true;
-            this.checkBoxWeekly3.Location = new System.Drawing.Point(156, 82);
+            this.checkBoxWeekly3.Location = new System.Drawing.Point(126, 82);
             this.checkBoxWeekly3.Name = "checkBoxWeekly3";
             this.checkBoxWeekly3.Size = new System.Drawing.Size(61, 19);
             this.checkBoxWeekly3.TabIndex = 24;
@@ -443,15 +434,21 @@
             this.checkBoxWeekly3.UseVisualStyleBackColor = true;
             this.checkBoxWeekly3.CheckedChanged += new System.EventHandler(this.SaveCheckState);
             // 
-            // button_BossTab
+            // pictureBox1
             // 
-            this.button_BossTab.Location = new System.Drawing.Point(663, 40);
-            this.button_BossTab.Name = "button_BossTab";
-            this.button_BossTab.Size = new System.Drawing.Size(31, 262);
-            this.button_BossTab.TabIndex = 3;
-            this.button_BossTab.Text = "<";
-            this.button_BossTab.UseVisualStyleBackColor = true;
-            this.button_BossTab.Click += new System.EventHandler(this.button_BossTab_Click);
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(897, 59);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(159, 177);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // groupBox1
             // 
@@ -461,9 +458,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(315, 53);
+            this.groupBox1.Location = new System.Drawing.Point(544, 50);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(166, 101);
+            this.groupBox1.Size = new System.Drawing.Size(185, 106);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
@@ -529,13 +526,12 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.설정ToolStripMenuItem,
-            this.보기ToolStripMenuItem,
             this.정보ToolStripMenuItem,
             this.정보ToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(957, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1056, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -578,12 +574,6 @@
             this.모두체크해제ToolStripMenuItem.Text = "모두 체크해제";
             this.모두체크해제ToolStripMenuItem.Click += new System.EventHandler(this.모두체크해제ToolStripMenuItem_Click);
             // 
-            // 보기ToolStripMenuItem
-            // 
-            this.보기ToolStripMenuItem.Name = "보기ToolStripMenuItem";
-            this.보기ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.보기ToolStripMenuItem.Text = "보기";
-            // 
             // 정보ToolStripMenuItem
             // 
             this.정보ToolStripMenuItem.Name = "정보ToolStripMenuItem";
@@ -618,18 +608,18 @@
             this.listBox_Characters.Cursor = System.Windows.Forms.Cursors.Hand;
             this.listBox_Characters.FormattingEnabled = true;
             this.listBox_Characters.ItemHeight = 15;
-            this.listBox_Characters.Location = new System.Drawing.Point(487, 62);
+            this.listBox_Characters.Location = new System.Drawing.Point(735, 59);
             this.listBox_Characters.Name = "listBox_Characters";
             this.listBox_Characters.ScrollAlwaysVisible = true;
-            this.listBox_Characters.Size = new System.Drawing.Size(170, 64);
+            this.listBox_Characters.Size = new System.Drawing.Size(156, 64);
             this.listBox_Characters.TabIndex = 6;
             this.listBox_Characters.SelectedIndexChanged += new System.EventHandler(this.listBox_Characters_SelectedIndexChanged);
             // 
             // button_RemoveCharacter
             // 
-            this.button_RemoveCharacter.Location = new System.Drawing.Point(630, 129);
+            this.button_RemoveCharacter.Location = new System.Drawing.Point(862, 126);
             this.button_RemoveCharacter.Name = "button_RemoveCharacter";
-            this.button_RemoveCharacter.Size = new System.Drawing.Size(27, 30);
+            this.button_RemoveCharacter.Size = new System.Drawing.Size(29, 30);
             this.button_RemoveCharacter.TabIndex = 7;
             this.button_RemoveCharacter.Text = "-";
             this.button_RemoveCharacter.UseVisualStyleBackColor = true;
@@ -641,19 +631,19 @@
             this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(315, 160);
+            this.checkedListBox1.Location = new System.Drawing.Point(544, 162);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
-            this.checkedListBox1.Size = new System.Drawing.Size(342, 104);
+            this.checkedListBox1.Size = new System.Drawing.Size(347, 104);
             this.checkedListBox1.TabIndex = 8;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // button_AddPlan
             // 
-            this.button_AddPlan.Location = new System.Drawing.Point(474, 270);
+            this.button_AddPlan.Location = new System.Drawing.Point(725, 272);
             this.button_AddPlan.Name = "button_AddPlan";
-            this.button_AddPlan.Size = new System.Drawing.Size(90, 30);
+            this.button_AddPlan.Size = new System.Drawing.Size(83, 30);
             this.button_AddPlan.TabIndex = 9;
             this.button_AddPlan.Text = "플랜 추가";
             this.button_AddPlan.UseVisualStyleBackColor = true;
@@ -661,9 +651,9 @@
             // 
             // button_RemovePlan
             // 
-            this.button_RemovePlan.Location = new System.Drawing.Point(567, 270);
+            this.button_RemovePlan.Location = new System.Drawing.Point(808, 272);
             this.button_RemovePlan.Name = "button_RemovePlan";
-            this.button_RemovePlan.Size = new System.Drawing.Size(90, 30);
+            this.button_RemovePlan.Size = new System.Drawing.Size(83, 30);
             this.button_RemovePlan.TabIndex = 10;
             this.button_RemovePlan.Text = "플랜 제거";
             this.button_RemovePlan.UseVisualStyleBackColor = true;
@@ -671,10 +661,10 @@
             // 
             // textBox_Plan
             // 
-            this.textBox_Plan.Location = new System.Drawing.Point(315, 270);
+            this.textBox_Plan.Location = new System.Drawing.Point(544, 274);
             this.textBox_Plan.MaxLength = 40;
             this.textBox_Plan.Name = "textBox_Plan";
-            this.textBox_Plan.Size = new System.Drawing.Size(153, 25);
+            this.textBox_Plan.Size = new System.Drawing.Size(179, 25);
             this.textBox_Plan.TabIndex = 11;
             this.textBox_Plan.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Plan_KeyPress);
             // 
@@ -682,20 +672,11 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(487, 40);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 15);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "TIME";
-            // 
             // button_addCharacter
             // 
-            this.button_addCharacter.Location = new System.Drawing.Point(601, 129);
+            this.button_addCharacter.Location = new System.Drawing.Point(833, 126);
             this.button_addCharacter.Name = "button_addCharacter";
-            this.button_addCharacter.Size = new System.Drawing.Size(27, 30);
+            this.button_addCharacter.Size = new System.Drawing.Size(29, 30);
             this.button_addCharacter.TabIndex = 13;
             this.button_addCharacter.Text = "+";
             this.button_addCharacter.UseVisualStyleBackColor = true;
@@ -703,9 +684,9 @@
             // 
             // textBox_Nickname
             // 
-            this.textBox_Nickname.Location = new System.Drawing.Point(487, 130);
+            this.textBox_Nickname.Location = new System.Drawing.Point(735, 129);
             this.textBox_Nickname.Name = "textBox_Nickname";
-            this.textBox_Nickname.Size = new System.Drawing.Size(108, 25);
+            this.textBox_Nickname.Size = new System.Drawing.Size(96, 25);
             this.textBox_Nickname.TabIndex = 14;
             this.textBox_Nickname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nickname_KeyPress);
             // 
@@ -716,7 +697,7 @@
             this.tabPageMonthlyBoss.Location = new System.Drawing.Point(4, 25);
             this.tabPageMonthlyBoss.Name = "tabPageMonthlyBoss";
             this.tabPageMonthlyBoss.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMonthlyBoss.Size = new System.Drawing.Size(249, 249);
+            this.tabPageMonthlyBoss.Size = new System.Drawing.Size(249, 248);
             this.tabPageMonthlyBoss.TabIndex = 2;
             this.tabPageMonthlyBoss.Text = "월간보스";
             // 
@@ -753,10 +734,11 @@
             this.tabPageWeeklyBoss.Controls.Add(this.checkBoxWeeklyBoss15);
             this.tabPageWeeklyBoss.Controls.Add(this.checkBoxWeeklyBoss16);
             this.tabPageWeeklyBoss.Controls.Add(this.checkBoxWeeklyBoss17);
+            this.tabPageWeeklyBoss.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPageWeeklyBoss.Location = new System.Drawing.Point(4, 25);
             this.tabPageWeeklyBoss.Name = "tabPageWeeklyBoss";
             this.tabPageWeeklyBoss.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWeeklyBoss.Size = new System.Drawing.Size(249, 249);
+            this.tabPageWeeklyBoss.Size = new System.Drawing.Size(249, 248);
             this.tabPageWeeklyBoss.TabIndex = 1;
             this.tabPageWeeklyBoss.Text = "주간보스";
             // 
@@ -989,7 +971,7 @@
             this.tabPageDailyBoss.Location = new System.Drawing.Point(4, 25);
             this.tabPageDailyBoss.Name = "tabPageDailyBoss";
             this.tabPageDailyBoss.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDailyBoss.Size = new System.Drawing.Size(249, 249);
+            this.tabPageDailyBoss.Size = new System.Drawing.Size(249, 248);
             this.tabPageDailyBoss.TabIndex = 0;
             this.tabPageDailyBoss.Text = "일일보스";
             // 
@@ -1162,23 +1144,59 @@
             this.tabControl1.Controls.Add(this.tabPageDailyBoss);
             this.tabControl1.Controls.Add(this.tabPageWeeklyBoss);
             this.tabControl1.Controls.Add(this.tabPageMonthlyBoss);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabControl1.Location = new System.Drawing.Point(700, 28);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(257, 278);
+            this.tabControl1.Size = new System.Drawing.Size(257, 277);
             this.tabControl1.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(732, 41);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(49, 15);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "CTIME";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.ErrorImage = null;
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(897, 237);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(159, 68);
+            this.pictureBox2.TabIndex = 16;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.DoubleClick += new System.EventHandler(this.pictureBox2_DoubleClick);
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(544, 310);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.ScriptErrorsSuppressed = true;
+            this.webBrowser1.Size = new System.Drawing.Size(500, 296);
+            this.webBrowser1.TabIndex = 25;
+            this.webBrowser1.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(957, 306);
+            this.ClientSize = new System.Drawing.Size(1056, 305);
+            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox_Nickname);
             this.Controls.Add(this.button_addCharacter);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox_Plan);
             this.Controls.Add(this.button_RemovePlan);
             this.Controls.Add(this.button_AddPlan);
@@ -1186,7 +1204,6 @@
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.button_RemoveCharacter);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button_BossTab);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -1200,9 +1217,9 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPageSymbol.ResumeLayout(false);
             this.tabPageSymbol.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPageContents.ResumeLayout(false);
             this.tabPageContents.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -1214,6 +1231,7 @@
             this.tabPageDailyBoss.ResumeLayout(false);
             this.tabPageDailyBoss.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1222,7 +1240,6 @@
         #endregion
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPageSymbol;
-        private System.Windows.Forms.Button button_BossTab;
         private System.Windows.Forms.CheckBox checkBoxSymbol0;
         private System.Windows.Forms.CheckBox checkBoxSymbol1;
         private System.Windows.Forms.CheckBox checkBoxSymbol2;
@@ -1238,7 +1255,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 설정ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 보기ToolStripMenuItem;
         private System.Windows.Forms.Label labelJob;
         private System.Windows.Forms.Label labelLevel;
         private System.Windows.Forms.Label labelNick;
@@ -1253,7 +1269,6 @@
         private System.Windows.Forms.TextBox textBox_Plan;
         private System.Windows.Forms.ToolStripMenuItem 정보ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button_addCharacter;
         private System.Windows.Forms.TextBox textBox_Nickname;
         private System.Windows.Forms.ToolStripMenuItem 모두체크해제ToolStripMenuItem;
@@ -1278,7 +1293,6 @@
         private System.Windows.Forms.CheckBox checkBoxWeekly3;
         private System.Windows.Forms.TabPage tabPageMonthlyBoss;
         private System.Windows.Forms.CheckBox checkBoxMonthlyBoss0;
-        private System.Windows.Forms.TabPage tabPageWeeklyBoss;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxWeeklyBoss0;
         private System.Windows.Forms.CheckBox checkBoxWeeklyBoss1;
@@ -1315,6 +1329,10 @@
         private System.Windows.Forms.CheckBox checkBoxDailyBoss12;
         private System.Windows.Forms.CheckBox checkBoxDailyBoss13;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPageWeeklyBoss;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 
