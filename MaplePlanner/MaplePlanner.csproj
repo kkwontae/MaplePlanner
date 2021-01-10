@@ -29,10 +29,10 @@
     <UpdateUrl>http://mapleplanner.synology.me/Mapleplanner/</UpdateUrl>
     <ProductName>메이플플래너</ProductName>
     <PublisherName>mapleplanner</PublisherName>
-    <MinimumRequiredVersion>0.0.1.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>0.0.3.0</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>0.0.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

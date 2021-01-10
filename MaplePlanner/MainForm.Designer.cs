@@ -125,6 +125,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl2.SuspendLayout();
             this.tabPageSymbol.SuspendLayout();
             this.tabPageContents.SuspendLayout();
@@ -641,30 +642,31 @@
             // 
             // button_AddPlan
             // 
-            this.button_AddPlan.Location = new System.Drawing.Point(725, 272);
+            this.button_AddPlan.Location = new System.Drawing.Point(726, 270);
             this.button_AddPlan.Name = "button_AddPlan";
-            this.button_AddPlan.Size = new System.Drawing.Size(83, 30);
+            this.button_AddPlan.Size = new System.Drawing.Size(55, 30);
             this.button_AddPlan.TabIndex = 9;
-            this.button_AddPlan.Text = "플랜 추가";
+            this.button_AddPlan.Text = "추가";
             this.button_AddPlan.UseVisualStyleBackColor = true;
             this.button_AddPlan.Click += new System.EventHandler(this.button_AddPlan_Click);
             // 
             // button_RemovePlan
             // 
-            this.button_RemovePlan.Location = new System.Drawing.Point(808, 272);
+            this.button_RemovePlan.Location = new System.Drawing.Point(781, 270);
             this.button_RemovePlan.Name = "button_RemovePlan";
-            this.button_RemovePlan.Size = new System.Drawing.Size(83, 30);
+            this.button_RemovePlan.Size = new System.Drawing.Size(55, 30);
             this.button_RemovePlan.TabIndex = 10;
-            this.button_RemovePlan.Text = "플랜 제거";
+            this.button_RemovePlan.Text = "제거";
             this.button_RemovePlan.UseVisualStyleBackColor = true;
             this.button_RemovePlan.Click += new System.EventHandler(this.button_RemovePlan_Click);
             // 
             // textBox_Plan
             // 
-            this.textBox_Plan.Location = new System.Drawing.Point(544, 274);
+            this.textBox_Plan.Location = new System.Drawing.Point(544, 270);
             this.textBox_Plan.MaxLength = 40;
+            this.textBox_Plan.Multiline = true;
             this.textBox_Plan.Name = "textBox_Plan";
-            this.textBox_Plan.Size = new System.Drawing.Size(179, 25);
+            this.textBox_Plan.Size = new System.Drawing.Size(181, 29);
             this.textBox_Plan.TabIndex = 11;
             this.textBox_Plan.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Plan_KeyPress);
             // 
@@ -684,9 +686,10 @@
             // 
             // textBox_Nickname
             // 
-            this.textBox_Nickname.Location = new System.Drawing.Point(735, 129);
+            this.textBox_Nickname.Location = new System.Drawing.Point(735, 126);
+            this.textBox_Nickname.Multiline = true;
             this.textBox_Nickname.Name = "textBox_Nickname";
-            this.textBox_Nickname.Size = new System.Drawing.Size(96, 25);
+            this.textBox_Nickname.Size = new System.Drawing.Size(96, 29);
             this.textBox_Nickname.TabIndex = 14;
             this.textBox_Nickname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nickname_KeyPress);
             // 
@@ -1186,11 +1189,23 @@
             this.webBrowser1.TabIndex = 25;
             this.webBrowser1.Visible = false;
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(837, 270);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(54, 30);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "☑→☐";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 305);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label7);
@@ -1333,6 +1348,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

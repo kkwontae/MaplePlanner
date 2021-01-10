@@ -198,7 +198,8 @@ namespace MaplePlanner
                 string imgurl;
                 var url = "https://maple.gg/u/" + nickname;
                 HtmlWeb web = new HtmlWeb();
-                web.Load("https://maple.gg/search?q=" + nickname);
+                var doc1 = web.Load("https://maple.gg/search?q=" + nickname);
+                
                 try
                 {
                     var doc = web.Load(url);
@@ -652,10 +653,16 @@ namespace MaplePlanner
             }
             catch { MessageBox.Show("Load Error!"); }
         }
-        string homepageURL = "https://mapleplanner.synology.me";
         private void pictureBox2_DoubleClick(object sender, EventArgs e)
         {
+            string homepageURL = "https://mapleplanner.synology.me";
             System.Diagnostics.Process.Start(homepageURL);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                checkedListBox1.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
         }
     }
     public class RedTextRenderer : ToolStripRenderer
