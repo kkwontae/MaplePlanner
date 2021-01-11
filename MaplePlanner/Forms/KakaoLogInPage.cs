@@ -76,7 +76,7 @@ namespace MaplePlanner
         private void KakaoLogInPage_Load(object sender, EventArgs e)
         {
             var appName = System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe";
-            MessageBox.Show(appName + webBrowser1.Version.Major.ToString());
+            //MessageBox.Show(appName + webBrowser1.Version.Major.ToString());
             //SetIE8KeyforWebBrowserControl(appName);
         }
 

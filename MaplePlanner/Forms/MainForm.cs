@@ -22,7 +22,7 @@ namespace MaplePlanner
         public MainForm()
         {
             InitializeComponent();
-            WebBrowserVersionSetting();
+            //WebBrowserVersionSetting();
             kakaoManager = new KakaoManager();
             //CheckVersion();
 
@@ -674,8 +674,6 @@ namespace MaplePlanner
         {
             if (로그인ToolStripMenuItem.Text == "로그인")
             {
-                MessageBox.Show(webBrowser1.Version.ToString());
-
                 kakaoLoginPage = new KakaoLogInPage();
                 if(kakaoLoginPage.ShowDialog()==DialogResult.OK)
                 {
@@ -719,7 +717,6 @@ namespace MaplePlanner
                 else
                     ie_emulation = 7000;
             }
-
             try
             {
                 registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
@@ -728,13 +725,12 @@ namespace MaplePlanner
                 // IE가 없으면 실행 불가능
                 if (registryKey == null)
                 {
-                    MessageBox.Show("웹 브라우저 버전 초기화에 실패했습니다..!");
+                    MessageBox.Show("IE no detected");
                     Application.Exit();
                     return;
                 }
 
                 string FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
-
                 // 이미 키가 있다면 종료
                 if (FindAppkey == ie_emulation.ToString())
                 {
@@ -755,14 +751,13 @@ namespace MaplePlanner
                 }
                 else
                 {
-                    MessageBox.Show("웹 브라우저 버전 초기화에 실패했습니다..!");
+                    MessageBox.Show("https://mapleplanner.synology.me 에 방문하여 레지스트리 키를 다운받아 실행하세요");
                     Application.Exit();
                     return;
                 }
             }
             catch
             {
-                MessageBox.Show("웹 브라우저 버전 초기화에 실패했습니다..!");
                 Application.Exit();
                 return;
             }
@@ -776,6 +771,11 @@ namespace MaplePlanner
             }
         }
         private void 계정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 테스트ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }

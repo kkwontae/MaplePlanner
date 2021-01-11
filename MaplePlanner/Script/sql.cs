@@ -21,9 +21,20 @@ namespace MaplePlanner
                 try
                 {
                     conn.Open();
-                    string strSQL = string.Format("INSERT INTO user_info VALUES ('{0}','{1}','{2}','{3}','{4}','{5}')", id, name, register_date, playtime, grade, donation);
-                    Console.WriteLine(strSQL);
+                    string strSQL = string.Format("SELECT id FROM user_info WHERE id={0}", id);
                     MySqlCommand cmd = new MySqlCommand(strSQL, conn);
+                    //cmd.ExecuteNonQuery();
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    while(rdr.Read())
+                    {
+                        if (Convert.ToInt32(rdr["id"]) == id)
+                            return;
+                    }
+                    rdr.Close();
+
+                    strSQL = string.Format("INSERT INTO user_info VALUES ('{0}','{1}','{2}','{3}','{4}','{5}')", id, name, register_date, playtime, grade, donation);
+                    cmd = new MySqlCommand(strSQL, conn);
+                    Console.WriteLine(strSQL);
                     cmd.ExecuteNonQuery();
                 }
                 catch(Exception ex) { Console.WriteLine(ex.ToString()); }

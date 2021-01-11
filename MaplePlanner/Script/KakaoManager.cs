@@ -18,7 +18,7 @@ namespace MaplePlanner
         {
             string wUrl = webBrowser.Url.ToString();
             string userToken = wUrl.Substring(wUrl.IndexOf("=") + 1);
-
+            
             if (wUrl.CompareTo(KakaoApiEndPoint.KakaoRedirectUrl + "?code=" + userToken) == 0)
             {
                 Console.WriteLine("유저 토큰 얻기 성공");
