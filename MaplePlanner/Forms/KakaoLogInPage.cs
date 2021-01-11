@@ -27,6 +27,8 @@ namespace MaplePlanner
             label1.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
+            label4.Visible = false;
+            label5.Visible = false;
             button1.Visible = false;
             button2.Visible = false;
 
@@ -50,6 +52,8 @@ namespace MaplePlanner
                 label1.Visible = true;
                 label2.Visible = true;
                 label3.Visible = true;
+                label4.Visible = true;
+                label5.Visible = true;
                 button1.Visible = true;
                 button2.Visible = true;
 
@@ -144,6 +148,8 @@ namespace MaplePlanner
                 return false;
             }
         }
+
+
 
         private void KakaoLogInPage_FormClosing(object sender, FormClosingEventArgs e)
         {

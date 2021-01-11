@@ -680,8 +680,11 @@ namespace MaplePlanner
                 if(kakaoLoginPage.ShowDialog()==DialogResult.OK)
                 {
                     로그인ToolStripMenuItem.Text = "로그아웃";
+                    kakaoManager.KakaoUserData();
                     kakaoManager.KakaoTokenData();
-                    label6.Text = KakaoData.UserId;
+                    SQLManager sql = new SQLManager();
+                    sql.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserNickName, sql.formatDateTime(DateTime.Now), 0, 0, 0);
+                    //label6.Text = KakaoData.UserId;
                 }                
             }
             else if(로그인ToolStripMenuItem.Text == "로그아웃")
