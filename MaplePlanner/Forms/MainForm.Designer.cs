@@ -73,6 +73,8 @@
             this.정보ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.버전ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.패치노트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.계정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.로그인ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox_Characters = new System.Windows.Forms.ListBox();
             this.button_RemoveCharacter = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
@@ -126,6 +128,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button1 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabControl2.SuspendLayout();
             this.tabPageSymbol.SuspendLayout();
             this.tabPageContents.SuspendLayout();
@@ -528,7 +531,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.설정ToolStripMenuItem,
             this.정보ToolStripMenuItem,
-            this.정보ToolStripMenuItem1});
+            this.정보ToolStripMenuItem1,
+            this.계정ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -603,6 +607,22 @@
             this.패치노트ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.패치노트ToolStripMenuItem.Text = "패치노트";
             this.패치노트ToolStripMenuItem.Click += new System.EventHandler(this.패치노트ToolStripMenuItem_Click);
+            // 
+            // 계정ToolStripMenuItem
+            // 
+            this.계정ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.로그인ToolStripMenuItem});
+            this.계정ToolStripMenuItem.Name = "계정ToolStripMenuItem";
+            this.계정ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.계정ToolStripMenuItem.Text = "계정";
+            this.계정ToolStripMenuItem.Click += new System.EventHandler(this.계정ToolStripMenuItem_Click);
+            // 
+            // 로그인ToolStripMenuItem
+            // 
+            this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.로그인ToolStripMenuItem.Text = "로그인";
+            this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // listBox_Characters
             // 
@@ -1200,11 +1220,21 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(541, 41);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 15);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "label6";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 305);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.pictureBox2);
@@ -1349,6 +1379,9 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem 계정ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 로그인ToolStripMenuItem;
+        private System.Windows.Forms.Label label6;
     }
 }
 

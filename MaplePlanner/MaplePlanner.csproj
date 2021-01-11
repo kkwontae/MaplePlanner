@@ -67,7 +67,7 @@
     <ManifestKeyFile>cert.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -85,6 +85,12 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.29.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.29\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -111,6 +117,7 @@
     <Reference Include="System.Net.Http">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms">
       <Private>False</Private>
     </Reference>
@@ -119,34 +126,46 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\KakaoLogInPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\KakaoLogInPage.Designer.cs">
+      <DependentUpon>KakaoLogInPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Script\KakaoApiEndPoint.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Info.cs">
+    <Compile Include="Forms\Info.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Info.Designer.cs">
+    <Compile Include="Forms\Info.Designer.cs">
       <DependentUpon>Info.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ini.cs" />
-    <Compile Include="PatchNotes.cs">
+    <Compile Include="Script\Ini.cs" />
+    <Compile Include="Forms\PatchNotes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PatchNotes.Designer.cs">
+    <Compile Include="Forms\PatchNotes.Designer.cs">
       <DependentUpon>PatchNotes.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <Compile Include="Script\KakaoData.cs" />
+    <Compile Include="Script\KakaoManager.cs" />
+    <EmbeddedResource Include="Forms\KakaoLogInPage.resx">
+      <DependentUpon>KakaoLogInPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Info.resx">
+    <EmbeddedResource Include="Forms\Info.resx">
       <DependentUpon>Info.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PatchNotes.resx">
+    <EmbeddedResource Include="Forms\PatchNotes.resx">
       <DependentUpon>PatchNotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
