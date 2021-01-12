@@ -48,6 +48,21 @@ namespace MaplePlanner
 
             return true;
         }
+        public void KakaoDisconnect()
+        {
+            var client = new RestClient(KakaoApiEndPoint.KakaoHostOAuthUrl);
+            var request = new RestRequest(KakaoApiEndPoint.KakaoOAuthUrl, Method.GET);
+
+            if (client.Execute(request).IsSuccessful)
+            {
+                Console.WriteLine("DISCONNECT 성공");
+            }
+            else
+            {
+                Console.WriteLine("DISCONNECT 실패");
+            }
+        }
+
 
         public void KakaoTalkLogOut()
         {
@@ -141,6 +156,11 @@ namespace MaplePlanner
             }
 
             KakaoData.UserNickName = json["properties"]["nickname"].ToString();
+            try
+            {
+                KakaoData.UserEmail = json["kakao_account"]["email"].ToString();
+            }
+            catch{ KakaoData.UserEmail = "TEST@test.com"; }
             //KakaoData.UserId = json["properties"]["id"].ToString();
             Console.WriteLine(json);
         }

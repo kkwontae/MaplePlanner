@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Configuration;
 using Microsoft.Win32;
+using System.Management;
+using System.Collections;
 
 namespace MaplePlanner
 {
@@ -19,12 +21,19 @@ namespace MaplePlanner
     {
         private KakaoLogInPage kakaoLoginPage;
         private KakaoManager kakaoManager;
+        private UserInfo userDB;
+        private string hddserial;
+        ArrayList hardDriveDetails = new ArrayList();
+        public static UserGrade userGrade;
+
+
         public MainForm()
         {
             InitializeComponent();
-            //WebBrowserVersionSetting();
+
             kakaoManager = new KakaoManager();
-            //CheckVersion();
+
+            
 
             //menuStrip1.Renderer = new RedTextRenderer();
 
@@ -37,7 +46,6 @@ namespace MaplePlanner
 
             try
             {
-                //version = version.Remove(0, 2);
                 //게시(Clickonce 등 일 경우) 응용프로그램 버전
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (배포)",
                     System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString().Remove(0, 2));
@@ -51,7 +59,23 @@ namespace MaplePlanner
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            GetHDDSerialNumber();
+            hddserial = ((HardDrive)hardDriveDetails[0]).SerialNo;
 
+            if (SQLManager.IsSerailinDB(hddserial))
+            {
+                userDB = SQLManager.GetUserDB(hddserial);
+                userGrade = userDB.grade;
+                label6.Text = "연동된 카카오톡 ID : " + userDB.email;
+                로그인ToolStripMenuItem.Text = "계정연동완료(" + userDB.email + ")";
+            }
+            else
+            {
+                userGrade = UserGrade.GUEST;
+                로그인ToolStripMenuItem.Text = "계정연동";
+                label6.Text = "GUEST 모드";
+                MessageBox.Show("GUEST 모드로 접속하였습니다.\n상단의 계정>계정연동을 통해 카카오톡 계정을 연동하시면 더 많은 기능을 사용할 수 있습니다.");
+            }
             DirectoryInfo di = new DirectoryInfo(DirPath);
             FileInfo fi = new FileInfo(FilePath);
 
@@ -672,27 +696,31 @@ namespace MaplePlanner
 
         private void 로그인ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (로그인ToolStripMenuItem.Text == "로그인")
+            if (로그인ToolStripMenuItem.Text == "계정연동")
             {
                 kakaoLoginPage = new KakaoLogInPage();
                 if(kakaoLoginPage.ShowDialog()==DialogResult.OK)
                 {
-                    로그인ToolStripMenuItem.Text = "로그아웃";
+                    로그인ToolStripMenuItem.Text = "계정연동완료(" + KakaoData.UserEmail + ")";
                     kakaoManager.KakaoUserData();
                     kakaoManager.KakaoTokenData();
                     SQLManager sql = new SQLManager();
-                    sql.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserNickName, sql.formatDateTime(DateTime.Now), 0, 0, 0);
+                    sql.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserEmail, KakaoData.UserNickName, sql.formatDateTime(DateTime.Now),0, UserGrade.BRONZE, 0, hddserial);
                     //label6.Text = KakaoData.UserId;
                 }                
             }
-            else if(로그인ToolStripMenuItem.Text == "로그아웃")
+        }
+
+        private void 계정연동해제ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("계정연동해제를 하면, 정보가 모두 초기화됩니다\n정말 초기화 하시겠습니까?", "경고", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                try { kakaoManager.KakaoTalkLogOut(); }
-                catch { MessageBox.Show("로그아웃 중 오류가 발생하였습니다."); }
-                
-                로그인ToolStripMenuItem.Text = "로그인";
+                로그인ToolStripMenuItem.Text = "계정연동";
+                SQLManager.Delete(userDB.hddserial);
+                //kakaoManager.KakaoDisconnect();
+                label6.Text = "GUEST모드";
             }
-            
+
         }
         private void WebBrowserVersionSetting()
         {
@@ -778,6 +806,43 @@ namespace MaplePlanner
         private void 테스트ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        class HardDrive
+        {
+            private string model = null;
+            private string type = null;
+            private string serialNo = null;
+            public string Model
+            {
+                get { return model; }
+                set { model = value; }
+            }
+            public string Type
+            {
+                get { return type; }
+                set { type = value; }
+            }
+            public string SerialNo
+            {
+                get { return serialNo; }
+                set { serialNo = value; }
+            }
+        }
+        public void GetHDDSerialNumber()
+        {
+            {
+                ManagementObjectSearcher moSearcher = new
+                ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+
+                foreach (ManagementObject wmi_HD in moSearcher.Get())
+                {
+                    HardDrive hd = new HardDrive();  // User Defined Class
+                    hd.Model = wmi_HD["Model"].ToString();  //Model Number
+                    hd.Type = wmi_HD["InterfaceType"].ToString();  //Interface Type
+                    hd.SerialNo = wmi_HD["SerialNumber"].ToString(); //Serial Number
+                    hardDriveDetails.Add(hd);
+                }
+            }
         }
     }
     public class RedTextRenderer : ToolStripRenderer

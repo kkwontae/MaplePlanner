@@ -14,9 +14,13 @@ namespace MaplePlanner
 
         // 리다이렉트 url
         public const string KakaoRedirectUrl = "https://mapleplanner.synology.me/oauth";
+        public const string KakaoLogOutRedirectUrl = "https://mapleplanner.synology.me/logout";
 
         // 로그인 url
         public const string KakaoLogInUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + KakaoRestApiKey + "&redirect_uri=" + KakaoRedirectUrl + "&response_type=code";
+
+        // 로그아웃 url
+        public const string KakaoLogOutUrl = "https://kauth.kakao.com/oauth/logout?client_id=" + KakaoRestApiKey + "&logout_redirect_uri=" + KakaoLogOutRedirectUrl;
 
         // 루트 url
         public const string KakaoHostOAuthUrl = "https://kauth.kakao.com";

@@ -129,6 +129,7 @@
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.계정연동해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2.SuspendLayout();
             this.tabPageSymbol.SuspendLayout();
             this.tabPageContents.SuspendLayout();
@@ -611,7 +612,8 @@
             // 계정ToolStripMenuItem
             // 
             this.계정ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.로그인ToolStripMenuItem});
+            this.로그인ToolStripMenuItem,
+            this.계정연동해제ToolStripMenuItem});
             this.계정ToolStripMenuItem.Name = "계정ToolStripMenuItem";
             this.계정ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.계정ToolStripMenuItem.Text = "계정";
@@ -620,8 +622,8 @@
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
-            this.로그인ToolStripMenuItem.Text = "로그인";
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.로그인ToolStripMenuItem.Text = "계정연동";
             this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // listBox_Characters
@@ -1223,11 +1225,18 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(541, 41);
+            this.label6.Location = new System.Drawing.Point(694, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(45, 15);
             this.label6.TabIndex = 27;
             this.label6.Text = "label6";
+            // 
+            // 계정연동해제ToolStripMenuItem
+            // 
+            this.계정연동해제ToolStripMenuItem.Name = "계정연동해제ToolStripMenuItem";
+            this.계정연동해제ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.계정연동해제ToolStripMenuItem.Text = "계정연동해제";
+            this.계정연동해제ToolStripMenuItem.Click += new System.EventHandler(this.계정연동해제ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1382,6 +1391,7 @@
         private System.Windows.Forms.ToolStripMenuItem 계정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 로그인ToolStripMenuItem;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ToolStripMenuItem 계정연동해제ToolStripMenuItem;
     }
 }
 
