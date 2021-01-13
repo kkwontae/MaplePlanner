@@ -10,6 +10,5 @@ namespace MaplePlanner
         public static string UserNickName; // 사용자 이름
         public static Bitmap UserImg; // 사용자 이미지
         public static string UserId;
-        public static string UserEmail;
     }
 }

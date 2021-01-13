@@ -156,11 +156,7 @@ namespace MaplePlanner
             }
 
             KakaoData.UserNickName = json["properties"]["nickname"].ToString();
-            try
-            {
-                KakaoData.UserEmail = json["kakao_account"]["email"].ToString();
-            }
-            catch{ KakaoData.UserEmail = "TEST@test.com"; }
+
             //KakaoData.UserId = json["properties"]["id"].ToString();
             Console.WriteLine(json);
         }

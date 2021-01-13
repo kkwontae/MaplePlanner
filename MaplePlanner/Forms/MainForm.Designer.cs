@@ -75,6 +75,8 @@
             this.패치노트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.계정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.로그인ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.계정연동해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.계정정보ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox_Characters = new System.Windows.Forms.ListBox();
             this.button_RemoveCharacter = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
@@ -128,8 +130,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button1 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.계정연동해제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
+            this.textDebug = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl2.SuspendLayout();
             this.tabPageSymbol.SuspendLayout();
             this.tabPageContents.SuspendLayout();
@@ -613,18 +616,32 @@
             // 
             this.계정ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.로그인ToolStripMenuItem,
-            this.계정연동해제ToolStripMenuItem});
+            this.계정연동해제ToolStripMenuItem,
+            this.계정정보ToolStripMenuItem});
             this.계정ToolStripMenuItem.Name = "계정ToolStripMenuItem";
             this.계정ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.계정ToolStripMenuItem.Text = "계정";
-            this.계정ToolStripMenuItem.Click += new System.EventHandler(this.계정ToolStripMenuItem_Click);
             // 
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.로그인ToolStripMenuItem.Text = "계정연동";
-            this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
+            this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.계정연동ToolStripMenuItem_Click);
+            // 
+            // 계정연동해제ToolStripMenuItem
+            // 
+            this.계정연동해제ToolStripMenuItem.Name = "계정연동해제ToolStripMenuItem";
+            this.계정연동해제ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.계정연동해제ToolStripMenuItem.Text = "계정연동해제";
+            this.계정연동해제ToolStripMenuItem.Click += new System.EventHandler(this.계정연동해제ToolStripMenuItem_Click);
+            // 
+            // 계정정보ToolStripMenuItem
+            // 
+            this.계정정보ToolStripMenuItem.Name = "계정정보ToolStripMenuItem";
+            this.계정정보ToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.계정정보ToolStripMenuItem.Text = "계정정보";
+            this.계정정보ToolStripMenuItem.Click += new System.EventHandler(this.계정정보ToolStripMenuItem_Click);
             // 
             // listBox_Characters
             // 
@@ -694,6 +711,7 @@
             // 
             // timer1
             // 
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button_addCharacter
@@ -1222,28 +1240,41 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label6
+            // button2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(694, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 15);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "label6";
+            this.button2.Location = new System.Drawing.Point(735, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 27;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // 계정연동해제ToolStripMenuItem
+            // textDebug
             // 
-            this.계정연동해제ToolStripMenuItem.Name = "계정연동해제ToolStripMenuItem";
-            this.계정연동해제ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.계정연동해제ToolStripMenuItem.Text = "계정연동해제";
-            this.계정연동해제ToolStripMenuItem.Click += new System.EventHandler(this.계정연동해제ToolStripMenuItem_Click);
+            this.textDebug.Location = new System.Drawing.Point(629, 3);
+            this.textDebug.Name = "textDebug";
+            this.textDebug.Size = new System.Drawing.Size(100, 25);
+            this.textDebug.TabIndex = 28;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(862, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 29;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 305);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.textDebug);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.pictureBox2);
@@ -1390,8 +1421,11 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem 계정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 로그인ToolStripMenuItem;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem 계정연동해제ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 계정정보ToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textDebug;
+        private System.Windows.Forms.Button button3;
     }
 }
 
