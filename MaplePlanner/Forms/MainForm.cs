@@ -25,17 +25,34 @@ namespace MaplePlanner
         ArrayList hardDriveDetails = new ArrayList();
 
 
+        private void WelcomeUser()
+        {
+            userDB = new UserInfo(); // GUEST
+            userPermissions = new Permissions(); // GUEST
+
+            GetHDDSerialNumber();
+            hddserial = ((HardDrive)hardDriveDetails[0]).SerialNo;
+
+            if (SQLManager.IsSerailinDB(hddserial)) // 등록된 하드시리얼이면,
+            {
+                userDB = SQLManager.GetUserDB(hddserial);
+                userPermissions = SQLManager.GetPermissions(userDB.Grade);
+                로그인ToolStripMenuItem.Text = "계정연동완료(" + userDB.ID + ")";
+            }
+            else
+            {
+                로그인ToolStripMenuItem.Text = "계정연동";
+                MessageBox.Show("GUEST 모드로 접속하였습니다.\n상단의 계정>계정연동을 통해 카카오톡 계정을 연동하시면 더 많은 기능을 사용할 수 있습니다.");
+            }
+        }
         public MainForm()
         {
             InitializeComponent();
 
             kakaoManager = new KakaoManager();
-            userDB = new UserInfo();
-            userPermissions = new Permissions();
+            
             //menuStrip1.Renderer = new RedTextRenderer();
 
-            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
-            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
             label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
 
             timer1.Start();
@@ -55,21 +72,7 @@ namespace MaplePlanner
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            GetHDDSerialNumber();
-            hddserial = ((HardDrive)hardDriveDetails[0]).SerialNo;
-
-            if (SQLManager.IsSerailinDB(hddserial))
-            {
-                userDB = SQLManager.GetUserDB(hddserial);
-                userPermissions = SQLManager.GetPermissions(userDB.Grade);
-                로그인ToolStripMenuItem.Text = "계정연동완료(" + userDB.ID + ")";
-            }
-            else
-            {
-                로그인ToolStripMenuItem.Text = "계정연동";
-                MessageBox.Show("GUEST 모드로 접속하였습니다.\n상단의 계정>계정연동을 통해 카카오톡 계정을 연동하시면 더 많은 기능을 사용할 수 있습니다.");
-            }
-
+            WelcomeUser();
             DirectoryInfo di = new DirectoryInfo(DirPath);
             FileInfo fi = new FileInfo(FilePath);
 
