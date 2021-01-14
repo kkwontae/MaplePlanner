@@ -129,7 +129,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_CheckAll = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -1229,16 +1229,16 @@
             this.webBrowser1.TabIndex = 25;
             this.webBrowser1.Visible = false;
             // 
-            // button1
+            // button_CheckAll
             // 
-            this.button1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(837, 270);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(54, 30);
-            this.button1.TabIndex = 26;
-            this.button1.Text = "☑→☐";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_CheckAll.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button_CheckAll.Location = new System.Drawing.Point(837, 270);
+            this.button_CheckAll.Name = "button_CheckAll";
+            this.button_CheckAll.Size = new System.Drawing.Size(54, 30);
+            this.button_CheckAll.TabIndex = 26;
+            this.button_CheckAll.Text = "☑→☐";
+            this.button_CheckAll.UseVisualStyleBackColor = true;
+            this.button_CheckAll.Click += new System.EventHandler(this.button_CheckAll_Click);
             // 
             // button2
             // 
@@ -1275,7 +1275,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textDebug);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_CheckAll);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label7);
@@ -1418,7 +1418,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_CheckAll;
         private System.Windows.Forms.ToolStripMenuItem 계정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 로그인ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 계정연동해제ToolStripMenuItem;

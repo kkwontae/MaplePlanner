@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using System.Management;
 using System.Collections;
 using HtmlAgilityPack;
+using System.Diagnostics;
 
 namespace MaplePlanner
 {
@@ -48,6 +49,7 @@ namespace MaplePlanner
         public MainForm()
         {
             InitializeComponent();
+            WebBrowserVersionSetting();
 
             kakaoManager = new KakaoManager();
             
@@ -62,12 +64,18 @@ namespace MaplePlanner
                 //게시(Clickonce 등 일 경우) 응용프로그램 버전
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (배포)",
                     System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString().Remove(0, 2));
+                textDebug.Visible = false;
+                button2.Visible = false;
+                button3.Visible = false;
             }
             catch
             {
                 //로컬 빌드 버전일 경우 (현재 어셈블리 버전)
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (빌드)",
                     System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Remove(0,2));
+                textDebug.Visible = true;
+                button2.Visible = true;
+                button3.Visible = true;
             }
         }
         private void MainForm_Load(object sender, EventArgs e)
@@ -684,12 +692,6 @@ namespace MaplePlanner
             System.Diagnostics.Process.Start(homepageURL);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
-                checkedListBox1.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
-        }
-
         private void 계정연동ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (userDB.Grade == UserGrade.GUEST)
@@ -700,7 +702,7 @@ namespace MaplePlanner
                     kakaoManager.KakaoUserData();
                     kakaoManager.KakaoTokenData();
 
-                    SQLManager.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserNickName, SQLManager.formatDateTime(DateTime.Now),0, UserGrade.브론즈I, 0, hddserial);
+                    SQLManager.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserNickName, SQLManager.formatDateTime(DateTime.Now),0, UserGrade.브론즈IV, 0, hddserial);
                     //label6.Text = KakaoData.UserId;
                     로그인ToolStripMenuItem.Text = "계정연동완료(" + KakaoData.UserId + ")";
                 }                
@@ -723,13 +725,8 @@ namespace MaplePlanner
         }
         private void WebBrowserVersionSetting()
         {
-            RegistryKey registryKey = null; // 레지스트리 변경에 사용 될 변수
-
             int browserver = 0;
             int ie_emulation = 0;
-            var targetApplication = System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe"; // 현재 프로그램 이름
-
-            // 사용자 IE 버전 확인
             using (WebBrowser wb = new WebBrowser())
             {
                 browserver = wb.Version.Major;
@@ -744,59 +741,98 @@ namespace MaplePlanner
                 else
                     ie_emulation = 7000;
             }
-            try
-            {
-                registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
-                    @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
 
-                // IE가 없으면 실행 불가능
-                if (registryKey == null)
-                {
-                    MessageBox.Show("IE no detected");
-                    Application.Exit();
-                    return;
-                }
+            string key;
+            ProcessStartInfo regadd = new ProcessStartInfo();
+            if (Environment.Is64BitProcess)
+                key = @"""HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
+            else
+                key = @"""HKLM\SOFTWARE\WOW6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
+            string arg = string.Format("add {0} /v MaplePlanner.exe /t REG_DWORD /d {1} /f", key, ie_emulation.ToString());
 
-                string FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
-                // 이미 키가 있다면 종료
-                if (FindAppkey == ie_emulation.ToString())
-                {
-                    registryKey.Close();
-                    return;
-                }
-
-                // 키가 없으므로 키 셋팅
-                registryKey.SetValue(targetApplication, unchecked((int)ie_emulation), RegistryValueKind.DWord);
-
-                // 다시 키를 받아와서
-                FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
-
-                // 현재 브라우저 버전이랑 동일 한지 판단
-                if (FindAppkey == ie_emulation.ToString())
-                {
-                    return;
-                }
-                else
-                {
-                    MessageBox.Show("https://mapleplanner.synology.me 에 방문하여 레지스트리 키를 다운받아 실행하세요");
-                    Application.Exit();
-                    return;
-                }
-            }
-            catch
-            {
-                Application.Exit();
-                return;
-            }
-            finally
-            {
-                // 키 메모리 해제
-                if (registryKey != null)
-                {
-                    registryKey.Close();
-                }
-            }
+            regadd.Arguments = arg;
+            regadd.WindowStyle = ProcessWindowStyle.Normal;
+            regadd.CreateNoWindow = false;
+            regadd.FileName = "reg.exe";
+            regadd.Verb = "runas";
+            Process.Start(regadd);
         }
+        //private void WebBrowserVersionSetting()
+        //{
+        //    RegistryKey registryKey = null; // 레지스트리 변경에 사용 될 변수
+
+        //    int browserver = 0;
+        //    int ie_emulation = 0;
+        //    var targetApplication = System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe"; // 현재 프로그램 이름
+
+        //    // 사용자 IE 버전 확인
+        //    using (WebBrowser wb = new WebBrowser())
+        //    {
+        //        browserver = wb.Version.Major;
+        //        if (browserver >= 11)
+        //            ie_emulation = 11001;
+        //        else if (browserver == 10)
+        //            ie_emulation = 10001;
+        //        else if (browserver == 9)
+        //            ie_emulation = 9999;
+        //        else if (browserver == 8)
+        //            ie_emulation = 8888;
+        //        else
+        //            ie_emulation = 7000;
+        //    }
+        //    try
+        //    {
+        //        registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+        //            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
+
+        //        // IE가 없으면 실행 불가능
+        //        if (registryKey == null)
+        //        {
+        //            MessageBox.Show("IE no detected");
+        //            Application.Exit();
+        //            return;
+        //        }
+
+        //        string FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
+        //        // 이미 키가 있다면 종료
+        //        if (FindAppkey == ie_emulation.ToString())
+        //        {
+        //            registryKey.Close();
+        //            return;
+        //        }
+
+        //        // 키가 없으므로 키 셋팅
+        //        registryKey.SetValue(targetApplication, unchecked((int)ie_emulation), RegistryValueKind.DWord);
+
+        //        // 다시 키를 받아와서
+        //        FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
+
+        //        // 현재 브라우저 버전이랑 동일 한지 판단
+        //        if (FindAppkey == ie_emulation.ToString())
+        //        {
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("https://mapleplanner.synology.me 에 방문하여 레지스트리 키를 다운받아 실행하세요");
+        //            Application.Exit();
+        //            return;
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        Application.Exit();
+        //        return;
+        //    }
+        //    finally
+        //    {
+        //        // 키 메모리 해제
+        //        if (registryKey != null)
+        //        {
+        //            registryKey.Close();
+        //        }
+        //    }
+        //}
         class HardDrive
         {
             private string model = null;
@@ -853,6 +889,12 @@ namespace MaplePlanner
         private void button3_Click(object sender, EventArgs e)
         {
             //SQLManager.GetPermissions();
+        }
+
+        private void button_CheckAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                checkedListBox1.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
         }
     }
     public class RedTextRenderer : ToolStripRenderer
