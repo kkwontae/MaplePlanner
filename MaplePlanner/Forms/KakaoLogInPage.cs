@@ -26,7 +26,7 @@ namespace MaplePlanner
             //webBrowser1.Navigate("javascript:void((function(){var a,b,c,e,f;f=0;a=document.cookie.split('; ');for(e=0;e<a.length&&a[e];e++){f++;for(b='.'+location.host;b;b=b.replace(/^(?:%5C.|[^%5C.]+)/,'')){for(c=location.pathname;c;c=c.replace(/.$/,'')){document.cookie=(a[e]+'; domain='+b+'; path='+c+'; expires='+new Date((new Date()).getTime()-1e11).toGMTString());}}}})())");
 
             webBrowser1.Visible = true;
-            textBox1.Visible = false;
+            textBox_Code.Visible = false;
             label1.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
@@ -49,9 +49,9 @@ namespace MaplePlanner
                 //MessageBox.Show("토큰 얻기 종로");
                 kakaoManager.GetAccessToKen();
 
-                textBox1.Visible = true;
+                textBox_Code.Visible = true;
                 webBrowser1.Visible = false;
-                textBox1.Visible = true;
+                textBox_Code.Visible = true;
                 label1.Visible = true;
                 label2.Visible = true;
                 label3.Visible = true;
@@ -96,7 +96,7 @@ namespace MaplePlanner
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == accessCode)
+            if (textBox_Code.Text == accessCode)
             {
                 MessageBox.Show("성공적으로 인증되었습니다.");
                 timer1.Stop();
@@ -154,6 +154,11 @@ namespace MaplePlanner
         private void KakaoLogInPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
+        }
+
+        private void textBox_Code_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
     }
 }

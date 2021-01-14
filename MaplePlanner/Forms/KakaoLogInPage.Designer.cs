@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KakaoLogInPage));
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_Code = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,13 +42,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBox_Code
             // 
-            this.textBox1.Font = new System.Drawing.Font("굴림", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox1.Location = new System.Drawing.Point(199, 381);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(127, 39);
-            this.textBox1.TabIndex = 1;
+            this.textBox_Code.Font = new System.Drawing.Font("굴림", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox_Code.Location = new System.Drawing.Point(199, 381);
+            this.textBox_Code.MaxLength = 6;
+            this.textBox_Code.Name = "textBox_Code";
+            this.textBox_Code.Size = new System.Drawing.Size(127, 39);
+            this.textBox_Code.TabIndex = 1;
+            this.textBox_Code.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Code_KeyPress);
             // 
             // label1
             // 
@@ -151,7 +153,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_Code);
             this.Controls.Add(this.webBrowser1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "KakaoLogInPage";
@@ -164,7 +166,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_Code;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
