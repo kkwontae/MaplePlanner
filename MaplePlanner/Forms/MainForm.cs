@@ -13,6 +13,7 @@ using System.Management;
 using System.Collections;
 using HtmlAgilityPack;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace MaplePlanner
 {
@@ -22,19 +23,20 @@ namespace MaplePlanner
         private KakaoManager kakaoManager;
         public static UserInfo userDB;
         public static Permissions userPermissions;
-        private string hddserial;
+        public static string hddserial;
         ArrayList hardDriveDetails = new ArrayList();
 
 
         private void WelcomeUser()
         {
+            hddserial = Script.HardDrive.GetHDDSerial();
             userDB = new UserInfo(); // GUEST
             userPermissions = new Permissions(); // GUEST
+            pictureBox1.Visible = false;
 
-            GetHDDSerialNumber();
-            hddserial = ((HardDrive)hardDriveDetails[0]).SerialNo;
+            //string id = "1591937298";
 
-            if (SQLManager.IsSerailinDB(hddserial)) // 등록된 하드시리얼이면,
+            if (SQLManager.ExistsHDD(hddserial)) // 등록된 HDD이면,
             {
                 userDB = SQLManager.GetUserDB(hddserial);
                 userPermissions = SQLManager.GetPermissions(userDB.Grade);
@@ -273,6 +275,10 @@ namespace MaplePlanner
                 ini.Load(FilePath);
 
                 listBox_Characters.Items.Add(nickname);
+                if (userPermissions.ShowCharImg)
+                    pictureBox1.Visible = true;
+                else
+                    pictureBox1.Visible = false;
                 textBox_Nickname.Text = string.Empty;
 
                 listBox_Characters.SelectedIndex = listBox_Characters.Items.Count - 1;
@@ -296,7 +302,11 @@ namespace MaplePlanner
                 UpdateInfo(nSelectedCharacter);
                 EnableAllCheckBox(true);
                 checkedListBox1.Enabled = true;
-                pictureBox1.Visible = true;
+                if (userPermissions.ShowCharImg)
+                    pictureBox1.Visible = true;
+                else
+                    pictureBox1.Visible = false;
+                    
                 button_AddPlan.Enabled = true;
                 button_RemoveCharacter.Enabled = true;
                 textBox_Plan.Enabled = true;
@@ -310,7 +320,10 @@ namespace MaplePlanner
                     labelNick.Text = "-";
                     labelLevel.Text = "-";
                     labelJob.Text = "-";
-                    pictureBox1.Visible = false;
+                    if (userPermissions.ShowBgImg)
+                        pictureBox1.Visible = true;
+                    else
+                        pictureBox1.Visible = false;
                     checkedListBox1.Items.Clear();
                     checkedListBox1.Enabled = false;
                     button_AddPlan.Enabled = false;
@@ -642,13 +655,28 @@ namespace MaplePlanner
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
-            webBrowser1.Url = new Uri(url);
+            try
+            {
+                var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
+                webBrowser1.Url = new Uri(url);
+            }
+            catch
+            {
+
+            }
+            
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             string imgurl = string.Empty;
+
+
+
+
+            string strLevel;
+            string strJob;
+
             var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
             try
             {
@@ -661,12 +689,23 @@ namespace MaplePlanner
                 var doc = web.Load(url);
 
                 imgurl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
+                strLevel = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[1]").InnerText.Split('.')[1];
+                strJob = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[2]").InnerText;
 
                 ini[sections[nSelectedCharacter]]["img"] = imgurl;
+                ini[sections[nSelectedCharacter]]["Level"] = strLevel;
+                ini[sections[nSelectedCharacter]]["job"] = strJob;
+
                 ini.Save(FilePath);
                 ini.Load(FilePath);
                 pictureBox1.ImageLocation = imgurl;
-                //webBrowser1.Url = new Uri(url);
+                try
+                {
+                    UpdateInfo(listBox_Characters.SelectedIndex);
+                }
+                catch { }
+
+                
 
             }
             catch { }
@@ -702,8 +741,14 @@ namespace MaplePlanner
                     kakaoManager.KakaoUserData();
                     kakaoManager.KakaoTokenData();
 
-                    SQLManager.Insert(Convert.ToInt32(KakaoData.UserId), KakaoData.UserNickName, SQLManager.formatDateTime(DateTime.Now),0, UserGrade.브론즈IV, 0, hddserial);
+                    SQLManager.Insert(KakaoData.UserId, KakaoData.UserNickName, SQLManager.formatDateTime(DateTime.Now),0, UserGrade.브론즈IV, 0, hddserial);
                     //label6.Text = KakaoData.UserId;
+
+                    userDB = SQLManager.GetUserDB(hddserial);
+                    userPermissions = SQLManager.GetPermissions(userDB.Grade);
+
+                    pictureBox1.Visible = true;
+
                     로그인ToolStripMenuItem.Text = "계정연동완료(" + KakaoData.UserId + ")";
                 }                
             }
@@ -716,7 +761,7 @@ namespace MaplePlanner
                 if (MessageBox.Show("계정연동해제를 하면, 정보가 모두 초기화됩니다\n정말 초기화 하시겠습니까?\n(프로그램이 자동으로 재실행됩니다)", "경고", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     로그인ToolStripMenuItem.Text = "계정연동";
-                    SQLManager.Delete(userDB.HDDserial);
+                    SQLManager.Delete(userDB.ID);
                     userDB = new UserInfo();
                     Application.Restart();
                     return;
@@ -726,9 +771,10 @@ namespace MaplePlanner
         private void WebBrowserVersionSetting()
         {
             int browserver = 0;
-            int ie_emulation = 0;
             using (WebBrowser wb = new WebBrowser())
             {
+                int ie_emulation = 0;
+
                 browserver = wb.Version.Major;
                 if (browserver >= 11)
                     ie_emulation = 11001;
@@ -741,18 +787,26 @@ namespace MaplePlanner
                 else
                     ie_emulation = 7000;
             }
-
+            if(browserver < 8)
+            {
+                if(MessageBox.Show("프로그램 최초등록을 위해 레지스트리 값 추가가 필요합니다.\n레지스트리 등록을 위해 관리자권한을 요청할 수 있습니다.","알림",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                    Register(browserver);
+            }
+            
+        }
+        private void Register(int value)
+        {
             string key;
             ProcessStartInfo regadd = new ProcessStartInfo();
             if (Environment.Is64BitProcess)
                 key = @"""HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
             else
                 key = @"""HKLM\SOFTWARE\WOW6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
-            string arg = string.Format("add {0} /v MaplePlanner.exe /t REG_DWORD /d {1} /f", key, ie_emulation.ToString());
+            string arg = string.Format("add {0} /v MaplePlanner.exe /t REG_DWORD /d {1} /f", key, value.ToString());
 
             regadd.Arguments = arg;
-            regadd.WindowStyle = ProcessWindowStyle.Normal;
-            regadd.CreateNoWindow = false;
+            regadd.WindowStyle = ProcessWindowStyle.Minimized;
+            regadd.CreateNoWindow = true;
             regadd.FileName = "reg.exe";
             regadd.Verb = "runas";
             Process.Start(regadd);
@@ -833,47 +887,11 @@ namespace MaplePlanner
         //        }
         //    }
         //}
-        class HardDrive
-        {
-            private string model = null;
-            private string type = null;
-            private string serialNo = null;
-            public string Model
-            {
-                get { return model; }
-                set { model = value; }
-            }
-            public string Type
-            {
-                get { return type; }
-                set { type = value; }
-            }
-            public string SerialNo
-            {
-                get { return serialNo; }
-                set { serialNo = value; }
-            }
-        }
-        public void GetHDDSerialNumber()
-        {
-            {
-                ManagementObjectSearcher moSearcher = new
-                ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-
-                foreach (ManagementObject wmi_HD in moSearcher.Get())
-                {
-                    HardDrive hd = new HardDrive();  // User Defined Class
-                    hd.Model = wmi_HD["Model"].ToString();  //Model Number
-                    hd.Type = wmi_HD["InterfaceType"].ToString();  //Interface Type
-                    hd.SerialNo = wmi_HD["SerialNumber"].ToString(); //Serial Number
-                    hardDriveDetails.Add(hd);
-                }
-            }
-        }
 
         private void 계정정보ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             userDB = SQLManager.GetUserDB(hddserial);
+            userPermissions = SQLManager.GetPermissions(userDB.Grade);
             ShowUserInfo dlg = new ShowUserInfo();
             dlg.ShowDialog();
         }
@@ -888,13 +906,22 @@ namespace MaplePlanner
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //SQLManager.GetPermissions();
+            MessageBox.Show(Script.HardDrive.MD5("test"));
         }
 
         private void button_CheckAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 checkedListBox1.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //숫자만 입력되도록 필터링
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == Convert.ToChar(Keys.Back)))    //숫자와 백스페이스를 제외한 나머지를 바로 처리
+            {
+                e.Handled = true;
+            }
         }
     }
     public class RedTextRenderer : ToolStripRenderer

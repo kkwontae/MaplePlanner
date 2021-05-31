@@ -1,9 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MaplePlanner
 {
@@ -13,7 +9,7 @@ namespace MaplePlanner
         {
 
         }
-        public static void Insert(int id, string name, string register_date, int playtime, UserGrade grade, int donation, string hddserial)
+        public static void Insert(string id, string name, string register_date, int playtime, UserGrade grade, int donation, string hddserial)
         {
             string connStr = "Server=mapleplanner.synology.me;port=3307;Database=users;Uid=usermapleplanner;Pwd=SvX0gCXVSZRLJx06!!;";
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -25,11 +21,19 @@ namespace MaplePlanner
                     MySqlCommand cmd = new MySqlCommand(strSQL, conn);
                     //cmd.ExecuteNonQuery();
                     MySqlDataReader rdr = cmd.ExecuteReader();
-                    while(rdr.Read())
+                    while (rdr.Read())
                     {
-                        if (Convert.ToInt32(rdr["id"]) == id)
+                        if (rdr["id"].ToString() == id)
                         {
-                            if(rdr["hddserial"].ToString() == hddserial)
+                            if (rdr["hddserial"].ToString() != hddserial) //접속한 곳이 다르면
+                            {
+                                rdr.Close();
+                                strSQL = string.Format("UPDATE user_info SET hddserial='{0}' WHERE id='{1}'", hddserial, id);
+                                cmd = new MySqlCommand(strSQL, conn);
+                                cmd.ExecuteReader();
+                                return;
+                            }
+                            else
                             {
                                 rdr.Close();
                                 return;
@@ -43,10 +47,10 @@ namespace MaplePlanner
                     Console.WriteLine(strSQL);
                     cmd.ExecuteNonQuery();
                 }
-                catch(Exception ex) { Console.WriteLine(ex.ToString()); }
+                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             }
         }
-        public static bool IsSerailinDB(string hddserial)
+        public static bool ExistsHDD(string hddserial)
         {
             string connStr = "Server=mapleplanner.synology.me;port=3307;Database=users;Uid=usermapleplanner;Pwd=SvX0gCXVSZRLJx06!!;";
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -89,13 +93,13 @@ namespace MaplePlanner
                         if (rdr["hddserial"].ToString() == hddserial)
                         {
                             userinfo = new UserInfo(
-                                Convert.ToInt32(rdr["id"]),
+                                rdr["id"].ToString(),
                                 rdr["name"].ToString(),
                                 DateTime.Parse(rdr["register_date"].ToString()),
                                 Convert.ToInt32(rdr["playtime"]),
                                 (UserGrade)rdr["grade"],
                                 Convert.ToInt32(rdr["donation"]),
-                                hddserial
+                                rdr["hddserial"].ToString()
                                 );
                         }
                     }
@@ -106,7 +110,7 @@ namespace MaplePlanner
                 return userinfo;
             }
         }
-        public static void Delete(string hddserial)
+        public static void Delete(string id)
         {
             string connStr = "Server=mapleplanner.synology.me;port=3307;Database=users;Uid=usermapleplanner;Pwd=SvX0gCXVSZRLJx06!!;";
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -114,7 +118,7 @@ namespace MaplePlanner
                 try
                 {
                     conn.Open();
-                    string strSQL = string.Format("DELETE FROM user_info WHERE hddserial='{0}'", hddserial);
+                    string strSQL = string.Format("DELETE FROM user_info WHERE id='{0}'", id);
                     MySqlCommand cmd = new MySqlCommand(strSQL, conn);
                     cmd.ExecuteReader();
                 }
@@ -129,23 +133,23 @@ namespace MaplePlanner
             {
                 try
                 {
-                conn.Open();
-                string strSQL = string.Format("SELECT * FROM permission WHERE grade='{0}'", (int)grade);
-                MySqlCommand cmd = new MySqlCommand(strSQL, conn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    if ((int)rdr["grade"] == (int)grade)
+                    conn.Open();
+                    string strSQL = string.Format("SELECT * FROM permission WHERE grade='{0}'", (int)grade);
+                    MySqlCommand cmd = new MySqlCommand(strSQL, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        perms.MaxCharacters = (int)rdr["max_characters"];
-                        perms.MaxPlans = (int)rdr["max_plans"];
-                        perms.ShowCharImg = (bool)rdr["show_char_img"];
-                        perms.ShowBgImg = (bool)rdr["show_bg_img"];
+                        if ((int)rdr["grade"] == (int)grade)
+                        {
+                            perms.MaxCharacters = (int)rdr["max_characters"];
+                            perms.MaxPlans = (int)rdr["max_plans"];
+                            perms.ShowCharImg = (bool)rdr["show_char_img"];
+                            perms.ShowBgImg = (bool)rdr["show_bg_img"];
+                        }
                     }
+                    rdr.Close();
                 }
-                rdr.Close();
-                }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                catch (Exception ex){ Console.WriteLine(ex.ToString()); }
                 Console.WriteLine(grade);
                 Console.WriteLine((int)grade);
                 Console.WriteLine(perms.MaxCharacters);
@@ -180,7 +184,7 @@ namespace MaplePlanner
                 try
                 {
                     conn.Open();
-                    string strSQL = string.Format("INSERT INTO permission VALUES ({0},'{1}',{2},{3},{4},{5})",(int)grade,grade,maxCharacter, maxPlans, showCharImg, showBgImg);
+                    string strSQL = string.Format("INSERT INTO permission VALUES ({0},'{1}',{2},{3},{4},{5})", (int)grade, grade, maxCharacter, maxPlans, showCharImg, showBgImg);
                     MySqlCommand cmd = new MySqlCommand(strSQL, conn);
                     Console.WriteLine(strSQL);
                     cmd.ExecuteNonQuery();

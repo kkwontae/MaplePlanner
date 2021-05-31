@@ -657,7 +657,7 @@
             // 
             // button_RemoveCharacter
             // 
-            this.button_RemoveCharacter.Location = new System.Drawing.Point(862, 126);
+            this.button_RemoveCharacter.Location = new System.Drawing.Point(863, 126);
             this.button_RemoveCharacter.Name = "button_RemoveCharacter";
             this.button_RemoveCharacter.Size = new System.Drawing.Size(29, 30);
             this.button_RemoveCharacter.TabIndex = 7;
@@ -1259,7 +1259,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(862, 4);
+            this.button3.Location = new System.Drawing.Point(816, 3);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 29;

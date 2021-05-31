@@ -37,6 +37,9 @@ namespace MaplePlanner
 
         public Permissions()
         {
+            this.maxCharacters = 1;
+            this.maxPlans = 0;
+            this.showCharImg = false;
             this.grade = UserGrade.GUEST;
         }
         public Permissions(UserGrade grade)

@@ -33,21 +33,21 @@ namespace MaplePlanner
     }
     public class UserInfo
     {
-        private int id;
+        private string id;
         private string name;
         private DateTime register_date;
         private int playtime;
         private UserGrade grade;
         private int donation;
-        private string hddserial;
         private Permissions permissions;
+        private string hddserial;
 
         public UserInfo()
         {
             grade = UserGrade.GUEST;
             permissions = new Permissions(grade);
         }
-        public UserInfo(int id, string name, DateTime register_date, int playtime, UserGrade grade, int donation, string hddserial)
+        public UserInfo(string id, string name, DateTime register_date, int playtime, UserGrade grade, int donation, string hddserial)
         {
             this.id = id;
             this.name = name;
@@ -55,16 +55,16 @@ namespace MaplePlanner
             this.playtime = playtime;
             this.grade = grade;
             this.donation = donation;
-            this.hddserial = hddserial;
             this.permissions = new Permissions(grade);
+            this.hddserial = hddserial;
         }
-        public int ID => id;
+        public string ID => id;
         public string Name => name;
         public DateTime RegisterDate => register_date;
         public int Playtime => playtime;
         public UserGrade Grade => grade;
         public int Donation => donation;
-        public string HDDserial => hddserial;
         public Permissions Permissions => permissions;
+        public string HDDserial => hddserial;
     }
 }
