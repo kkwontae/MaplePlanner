@@ -1,52 +1,88 @@
-﻿using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Configuration;
+using Microsoft.Win32;
+using System.Management;
+using System.Collections;
+using HtmlAgilityPack;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace MaplePlanner
 {
     public partial class MainForm : Form
     {
+        private KakaoLogInPage kakaoLoginPage;
+        private KakaoManager kakaoManager;
+        public static UserInfo userDB;
+        public static Permissions userPermissions;
+        public static string hddserial;
+        ArrayList hardDriveDetails = new ArrayList();
+
+
+        private void WelcomeUser()
+        {
+            hddserial = Script.HardDrive.GetHDDSerial();
+            userDB = new UserInfo(); // GUEST
+            userPermissions = new Permissions(); // GUEST
+            pictureBox1.Visible = false;
+
+            //string id = "1591937298";
+
+            if (SQLManager.ExistsHDD(hddserial)) // 등록된 HDD이면,
+            {
+                userDB = SQLManager.GetUserDB(hddserial);
+                userPermissions = SQLManager.GetPermissions(userDB.Grade);
+                로그인ToolStripMenuItem.Text = "계정연동완료(" + userDB.ID + ")";
+            }
+            else
+            {
+                로그인ToolStripMenuItem.Text = "계정연동";
+                MessageBox.Show("GUEST 모드로 접속하였습니다.\n상단의 계정>계정연동을 통해 카카오톡 계정을 연동하시면 더 많은 기능을 사용할 수 있습니다.");
+            }
+        }
         public MainForm()
         {
             InitializeComponent();
-            //CheckVersion();
+            WebBrowserVersionSetting();
 
+            kakaoManager = new KakaoManager();
+            
             //menuStrip1.Renderer = new RedTextRenderer();
 
-            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"HH\:mm\:ss");
-            //label6.Text = "00시 까지 : " + DateTime.Today.AddDays(1).Subtract(DateTime.Now).ToString(@"hh\:mm\:ss");
             label7.Text = "현재시간 : " + DateTime.Now.ToString(@"HH\:mm\:ss");
 
-            timer1.Interval = 1000;
             timer1.Start();
 
             try
             {
-                //version = version.Remove(0, 2);
                 //게시(Clickonce 등 일 경우) 응용프로그램 버전
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (배포)",
                     System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString().Remove(0, 2));
+                textDebug.Visible = false;
+                button2.Visible = false;
+                button3.Visible = false;
             }
             catch
             {
                 //로컬 빌드 버전일 경우 (현재 어셈블리 버전)
                 버전ToolStripMenuItem.Text = string.Format("ver. {0} (빌드)",
                     System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Remove(0,2));
+                textDebug.Visible = true;
+                button2.Visible = true;
+                button3.Visible = true;
             }
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            WelcomeUser();
             DirectoryInfo di = new DirectoryInfo(DirPath);
             FileInfo fi = new FileInfo(FilePath);
 
@@ -173,19 +209,18 @@ namespace MaplePlanner
             listBox_Characters.Items.RemoveAt(listBox_Characters.SelectedIndex);
         }
 
-        private readonly int limitedCharacter = 2;
         private void button_addCharacter_Click(object sender, EventArgs e)
         {
-            string nickname = textBox_Nickname.Text;
+            string nickname = Regex.Replace(textBox_Nickname.Text,@"\r\n","");
             if (listBox_Characters.Items.Contains(nickname))
             {
                 MessageBox.Show("캐릭터를 중복 등록할 수 없습니다","알림");
                 textBox_Nickname.Focus();
                 return;
             }
-            if (listBox_Characters.Items.Count >= limitedCharacter)
+            if (listBox_Characters.Items.Count >= userPermissions.MaxCharacters)
             {
-                MessageBox.Show("Lite버전 캐릭터 등록 갯수 제한 : " + limitedCharacter.ToString());
+                MessageBox.Show(userDB.Grade.ToString() + " 등급 캐릭터 등록 갯수 제한 : " + userPermissions.MaxCharacters.ToString());
                 textBox_Nickname.Text = string.Empty;
                 textBox_Nickname.Focus();
                 return;
@@ -193,20 +228,20 @@ namespace MaplePlanner
                 
             if (!string.IsNullOrEmpty(nickname))
             {
-                string level;
-                string job;
-                string imgurl;
-                var url = "https://maple.gg/u/" + nickname;
+                string strLevel;
+                string strJob;
+                string strImgUrl;
+                string strUrl = "https://maple.gg/u/" + nickname;
                 HtmlWeb web = new HtmlWeb();
-                var doc1 = web.Load("https://maple.gg/search?q=" + nickname);
+                //var doc1 = web.Load("https://maple.gg/search?q=" + nickname);
                 
                 try
                 {
-                    var doc = web.Load(url);
+                    var doc = web.Load(strUrl);
 
-                    level = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[1]").InnerText.Split('.')[1];
-                    job = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[2]").InnerText;
-                    imgurl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
+                    strLevel = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[1]").InnerText.Split('.')[1];
+                    strJob = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[2]").InnerText;
+                    strImgUrl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
                 }
                 catch
                 {
@@ -215,31 +250,35 @@ namespace MaplePlanner
                     return;
                 }
 
-                int last;
-                try{ last = Convert.ToInt32(sections[sections.Count - 1]) + 1; }
-                catch { last = 1; }
+                int intLast;
+                try{ intLast = Convert.ToInt32(sections[sections.Count - 1]) + 1; }
+                catch { intLast = 1; }
 
-                ini[last.ToString()]["Nickname"] = nickname;
-                ini[last.ToString()]["img"] = imgurl;
-                ini[last.ToString()]["Level"] = level;
-                ini[last.ToString()]["job"] = job;
-                ini[last.ToString()]["Plan0"] = string.Empty;
-                ini[last.ToString()]["Plan1"] = string.Empty;
-                ini[last.ToString()]["Plan2"] = string.Empty;
-                ini[last.ToString()]["Plan3"] = string.Empty;
-                ini[last.ToString()]["Plan4"] = string.Empty;
-                ini[last.ToString()]["PlanCheck"] = ".....";
-                ini[last.ToString()]["Symbol"] = 0;
-                ini[last.ToString()]["DailyBoss"] = 0;
-                ini[last.ToString()]["WeeklyBoss"] = 0;
-                ini[last.ToString()]["MonthlyBoss"] = 0;
+                ini[intLast.ToString()]["Nickname"] = nickname;
+                ini[intLast.ToString()]["img"] = strImgUrl;
+                ini[intLast.ToString()]["Level"] = strLevel;
+                ini[intLast.ToString()]["job"] = strJob;
+                ini[intLast.ToString()]["Plan0"] = string.Empty;
+                ini[intLast.ToString()]["Plan1"] = string.Empty;
+                ini[intLast.ToString()]["Plan2"] = string.Empty;
+                ini[intLast.ToString()]["Plan3"] = string.Empty;
+                ini[intLast.ToString()]["Plan4"] = string.Empty;
+                ini[intLast.ToString()]["PlanCheck"] = ".....";
+                ini[intLast.ToString()]["Symbol"] = 0;
+                ini[intLast.ToString()]["DailyBoss"] = 0;
+                ini[intLast.ToString()]["WeeklyBoss"] = 0;
+                ini[intLast.ToString()]["MonthlyBoss"] = 0;
 
-                sections.Add(last.ToString());
+                sections.Add(intLast.ToString());
 
                 ini.Save(FilePath);
                 ini.Load(FilePath);
 
                 listBox_Characters.Items.Add(nickname);
+                if (userPermissions.ShowCharImg)
+                    pictureBox1.Visible = true;
+                else
+                    pictureBox1.Visible = false;
                 textBox_Nickname.Text = string.Empty;
 
                 listBox_Characters.SelectedIndex = listBox_Characters.Items.Count - 1;
@@ -263,7 +302,11 @@ namespace MaplePlanner
                 UpdateInfo(nSelectedCharacter);
                 EnableAllCheckBox(true);
                 checkedListBox1.Enabled = true;
-                pictureBox1.Visible = true;
+                if (userPermissions.ShowCharImg)
+                    pictureBox1.Visible = true;
+                else
+                    pictureBox1.Visible = false;
+                    
                 button_AddPlan.Enabled = true;
                 button_RemoveCharacter.Enabled = true;
                 textBox_Plan.Enabled = true;
@@ -277,7 +320,10 @@ namespace MaplePlanner
                     labelNick.Text = "-";
                     labelLevel.Text = "-";
                     labelJob.Text = "-";
-                    pictureBox1.Visible = false;
+                    if (userPermissions.ShowBgImg)
+                        pictureBox1.Visible = true;
+                    else
+                        pictureBox1.Visible = false;
                     checkedListBox1.Items.Clear();
                     checkedListBox1.Enabled = false;
                     button_AddPlan.Enabled = false;
@@ -305,13 +351,13 @@ namespace MaplePlanner
             }
             checkedListBox1.Items.Clear();
             checkedListBox1.Items.AddRange(plans.ToArray());
-            string plancheck = ini[sections[nSelectedCharacter]]["PlanCheck"].Value;
+            string strPlanChecked = ini[sections[nSelectedCharacter]]["PlanCheck"].Value;
             if (checkedListBox1.Items.Count > 0)
             {
                 button_RemovePlan.Enabled = true;
                 for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 {
-                    if (plancheck[i] == '!')
+                    if (strPlanChecked[i] == '!')
                         checkedListBox1.SetItemCheckState(i, CheckState.Checked);
                     else
                     {
@@ -609,13 +655,28 @@ namespace MaplePlanner
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
-            webBrowser1.Url = new Uri(url);
+            try
+            {
+                var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
+                webBrowser1.Url = new Uri(url);
+            }
+            catch
+            {
+
+            }
+            
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             string imgurl = string.Empty;
+
+
+
+
+            string strLevel;
+            string strJob;
+
             var url = "https://maple.gg/u/" + listBox_Characters.Items[nSelectedCharacter].ToString();
             try
             {
@@ -628,12 +689,23 @@ namespace MaplePlanner
                 var doc = web.Load(url);
 
                 imgurl = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[1]/div/div[2]/img").Attributes["src"].Value;
+                strLevel = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[1]").InnerText.Split('.')[1];
+                strJob = doc.DocumentNode.SelectSingleNode("//*[@id='user-profile']/section/div/div[2]/div[1]/ul/li[2]").InnerText;
 
                 ini[sections[nSelectedCharacter]]["img"] = imgurl;
+                ini[sections[nSelectedCharacter]]["Level"] = strLevel;
+                ini[sections[nSelectedCharacter]]["job"] = strJob;
+
                 ini.Save(FilePath);
                 ini.Load(FilePath);
                 pictureBox1.ImageLocation = imgurl;
-                //webBrowser1.Url = new Uri(url);
+                try
+                {
+                    UpdateInfo(listBox_Characters.SelectedIndex);
+                }
+                catch { }
+
+                
 
             }
             catch { }
@@ -659,10 +731,197 @@ namespace MaplePlanner
             System.Diagnostics.Process.Start(homepageURL);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void 계정연동ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (userDB.Grade == UserGrade.GUEST)
+            {
+                kakaoLoginPage = new KakaoLogInPage();
+                if(kakaoLoginPage.ShowDialog()==DialogResult.OK)
+                {
+                    kakaoManager.KakaoUserData();
+                    kakaoManager.KakaoTokenData();
+
+                    SQLManager.Insert(KakaoData.UserId, KakaoData.UserNickName, SQLManager.formatDateTime(DateTime.Now),0, UserGrade.브론즈IV, 0, hddserial);
+                    //label6.Text = KakaoData.UserId;
+
+                    userDB = SQLManager.GetUserDB(hddserial);
+                    userPermissions = SQLManager.GetPermissions(userDB.Grade);
+
+                    pictureBox1.Visible = true;
+
+                    로그인ToolStripMenuItem.Text = "계정연동완료(" + KakaoData.UserId + ")";
+                }                
+            }
+        }
+
+        private void 계정연동해제ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(userDB.Grade != UserGrade.GUEST)
+            {
+                if (MessageBox.Show("계정연동해제를 하면, 정보가 모두 초기화됩니다\n정말 초기화 하시겠습니까?\n(프로그램이 자동으로 재실행됩니다)", "경고", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    로그인ToolStripMenuItem.Text = "계정연동";
+                    SQLManager.Delete(userDB.ID);
+                    userDB = new UserInfo();
+                    Application.Restart();
+                    return;
+                }
+            }
+        }
+        private void WebBrowserVersionSetting()
+        {
+            int browserver = 0;
+            using (WebBrowser wb = new WebBrowser())
+            {
+                int ie_emulation = 0;
+
+                browserver = wb.Version.Major;
+                if (browserver >= 11)
+                    ie_emulation = 11001;
+                else if (browserver == 10)
+                    ie_emulation = 10001;
+                else if (browserver == 9)
+                    ie_emulation = 9999;
+                else if (browserver == 8)
+                    ie_emulation = 8888;
+                else
+                    ie_emulation = 7000;
+            }
+            if(browserver < 8)
+            {
+                if(MessageBox.Show("프로그램 최초등록을 위해 레지스트리 값 추가가 필요합니다.\n레지스트리 등록을 위해 관리자권한을 요청할 수 있습니다.","알림",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                    Register(browserver);
+            }
+            
+        }
+        private void Register(int value)
+        {
+            string key;
+            ProcessStartInfo regadd = new ProcessStartInfo();
+            if (Environment.Is64BitProcess)
+                key = @"""HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
+            else
+                key = @"""HKLM\SOFTWARE\WOW6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION""";
+            string arg = string.Format("add {0} /v MaplePlanner.exe /t REG_DWORD /d {1} /f", key, value.ToString());
+
+            regadd.Arguments = arg;
+            regadd.WindowStyle = ProcessWindowStyle.Minimized;
+            regadd.CreateNoWindow = true;
+            regadd.FileName = "reg.exe";
+            regadd.Verb = "runas";
+            Process.Start(regadd);
+        }
+        //private void WebBrowserVersionSetting()
+        //{
+        //    RegistryKey registryKey = null; // 레지스트리 변경에 사용 될 변수
+
+        //    int browserver = 0;
+        //    int ie_emulation = 0;
+        //    var targetApplication = System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe"; // 현재 프로그램 이름
+
+        //    // 사용자 IE 버전 확인
+        //    using (WebBrowser wb = new WebBrowser())
+        //    {
+        //        browserver = wb.Version.Major;
+        //        if (browserver >= 11)
+        //            ie_emulation = 11001;
+        //        else if (browserver == 10)
+        //            ie_emulation = 10001;
+        //        else if (browserver == 9)
+        //            ie_emulation = 9999;
+        //        else if (browserver == 8)
+        //            ie_emulation = 8888;
+        //        else
+        //            ie_emulation = 7000;
+        //    }
+        //    try
+        //    {
+        //        registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+        //            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
+
+        //        // IE가 없으면 실행 불가능
+        //        if (registryKey == null)
+        //        {
+        //            MessageBox.Show("IE no detected");
+        //            Application.Exit();
+        //            return;
+        //        }
+
+        //        string FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
+        //        // 이미 키가 있다면 종료
+        //        if (FindAppkey == ie_emulation.ToString())
+        //        {
+        //            registryKey.Close();
+        //            return;
+        //        }
+
+        //        // 키가 없으므로 키 셋팅
+        //        registryKey.SetValue(targetApplication, unchecked((int)ie_emulation), RegistryValueKind.DWord);
+
+        //        // 다시 키를 받아와서
+        //        FindAppkey = Convert.ToString(registryKey.GetValue(targetApplication));
+
+        //        // 현재 브라우저 버전이랑 동일 한지 판단
+        //        if (FindAppkey == ie_emulation.ToString())
+        //        {
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("https://mapleplanner.synology.me 에 방문하여 레지스트리 키를 다운받아 실행하세요");
+        //            Application.Exit();
+        //            return;
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        Application.Exit();
+        //        return;
+        //    }
+        //    finally
+        //    {
+        //        // 키 메모리 해제
+        //        if (registryKey != null)
+        //        {
+        //            registryKey.Close();
+        //        }
+        //    }
+        //}
+
+        private void 계정정보ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            userDB = SQLManager.GetUserDB(hddserial);
+            userPermissions = SQLManager.GetPermissions(userDB.Grade);
+            ShowUserInfo dlg = new ShowUserInfo();
+            dlg.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            UserGrade tmp = (UserGrade)Enum.Parse(typeof(UserGrade), textDebug.Text);
+            SQLManager.SetGrade(1591937298, tmp);
+            userDB = SQLManager.GetUserDB(hddserial);
+            userPermissions = SQLManager.GetPermissions(userDB.Grade);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Script.HardDrive.MD5("test"));
+        }
+
+        private void button_CheckAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 checkedListBox1.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //숫자만 입력되도록 필터링
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == Convert.ToChar(Keys.Back)))    //숫자와 백스페이스를 제외한 나머지를 바로 처리
+            {
+                e.Handled = true;
+            }
         }
     }
     public class RedTextRenderer : ToolStripRenderer

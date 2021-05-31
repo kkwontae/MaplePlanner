@@ -24,13 +24,13 @@ namespace MaplePlanner
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (textBoxNickname.Text == "" || textBoxSubject.Text == "" || textBoxContext.Text == "")
+            if (textBoxID.Text == "" || textBoxSubject.Text == "" || textBoxContext.Text == "")
             {
                 MessageBox.Show("닉네임, 제목, 내용을 모두 입력해주세요");
             }
             else
             {
-                MailAddress ma_from = new MailAddress("mapleplanner2021@gmail.com", textBoxNickname.Text);
+                MailAddress ma_from = new MailAddress("mapleplanner2021@gmail.com", textBoxID.Text);
                 MailAddress ma_to = new MailAddress("mapleplanner2021@gmail.com", "mapleplanner");
                 string s_password = "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";
                 string s_subject = textBoxSubject.Text;
@@ -101,6 +101,11 @@ namespace MaplePlanner
                 if (MessageBox.Show("작성 중인 메일은 저장되지 않습니다!\n그래도 나가시겠습니까?", "경고", MessageBoxButtons.YesNo) == DialogResult.No)
                     e.Cancel = true;
             }
+        }
+
+        private void Info_Load(object sender, EventArgs e)
+        {
+            textBoxID.Text = MainForm.userDB.ID.ToString();
         }
     }
 }
